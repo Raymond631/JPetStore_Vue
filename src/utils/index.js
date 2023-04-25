@@ -1,3 +1,5 @@
+import "https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js";
+
 var xiaomi = {
     // 初始化方法
     start() {

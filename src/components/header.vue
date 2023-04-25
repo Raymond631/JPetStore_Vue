@@ -93,9 +93,8 @@
 </template>
   
 <script>
-    import '../assets/css/style.css'
     import '../utils/index.js'
-	
+
 	export default{
 		data(){
 			return {
@@ -107,3 +106,7 @@
 		},
 	}
 </script>
+
+<style scoped>
+	@import '../assets/css/style.css';
+</style>

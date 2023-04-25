@@ -259,7 +259,7 @@
 
 <script>
 	import { defineComponent } from "vue"
-	import navigationBar from "../../components/header.vue"
+	import navigationBar from '../../components/header.vue'
 	
 	export default defineComponent({
 		name: "index",
@@ -274,3 +274,7 @@
 		},
 	})
 </script>
+
+<style scoped>
+	@import '../../assets/css/style.css';
+</style>

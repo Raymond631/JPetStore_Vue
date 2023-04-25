@@ -76,7 +76,6 @@
   
   <script>
       import { defineComponent } from "vue"
-      import '../../assets/css/Login.css'
       import '../../utils/login.js'
       
       export default defineComponent({
@@ -91,3 +90,9 @@
           },
       })
   </script>
+
+  
+<style scoped>
+@import '../../assets/css/Login.css';
+
+</style>
