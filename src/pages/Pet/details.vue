@@ -1,0 +1,179 @@
+<template>
+	<navigationBar></navigationBar>
+    <!--详情-->
+<section>
+    <div class="de_container w">
+        <div class="product_intro clearfix">
+
+            <div class="entry_tit">
+                <dl class="entry_tit_pet">
+                    <dt>基本信息栏</dt>
+                    <dd>
+                        <span>中文名：</span>
+                        <em id="product_name_Chinese">{{ productNameChinese }}</em>
+                    </dd>
+                    <dd>
+                        <span>英文名：</span>
+                        <em id="product_name_English">{{ productNameEnglish }}}</em>
+                    </dd>
+                    <dd>
+                        <span>性　格：</span>
+                        <em id="product_character">{{ productCharacter }}}</em>
+                    </dd>
+                    <dd>
+                        <span>祖　籍：</span>
+                        <em id="product_ancestry">{{ productAncestry }}</em>
+                    </dd>
+                    <dd>
+                        <span>易患病：</span>
+                        <em id="product_disease">{{  productDisease}}</em>
+                    </dd>
+                    <dd>
+                        <span>寿　命：</span>
+                        <em id="product_life">{{ productLife }}</em>
+                    </dd>
+                </dl>
+                <div class="entry_tit_rig">
+                    <img id="petImage" alt="暂无图片" src="/jpetstore/image/img.png"/>
+                </div>
+                <div style="font: 16px/20px 'Microsoft YaHei'">
+                    <span>简  介：</span>
+                    <em id="product_introduce">{{ productIntroduce }}</em>
+                </div>
+            </div>
+
+            <div style="float: left;width: 450px;margin-top: 29px;margin-bottom: 20px">
+                <dl class="choose_color">
+                    <dt style="font: 20px 'Microsoft YaHei';margin-bottom: 20px">选择子项</dt>
+                    <dd id="pet_list" >
+                        <a class="list_item" v-for="(pet,index) in petItemList" :key="index" :class="index==current ? 'current' : '  ' " @click="chooseItem(index,pet)" >{{ pet.itemSpecification }}</a><br>
+                    </dd>
+                </dl>
+            </div>
+            <div class="itemInfo_wrap fr" style="margin-top: 45px">
+                <div class="sku_name" id="pet_name"></div>
+                <div class="summary">
+                    <dl class="summary_price">
+                        <dt style="font: 20px 'Microsoft YaHei'">价格</dt>
+                        <dd>
+                            <i class="price" id="pet_price">{{ price }}</i>
+                        </dd>
+                    </dl>
+                    <div class="choose_btns">
+                        <div class="choose_amount">
+                            <el-input-number v-model="number" :min="1" :max="max_Number" @change="handleChange" size="mx-4" style="margin-top: 5px;" />
+                            <!-- <input id="item_num" type="text" value="1">
+                            <a class="add" href="javascript:num_up();">+</a>
+                            <a class="reduce" href="javascript:num_down();">-</a> -->
+                        </div>
+                        <a class="addcar" href="javascript:addToCart();" id="addToCart">加入购物车</a>
+                        <span id="msg"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- 页脚 -->
+<footer>
+    <!-- 固定 -->
+    <div class="div_home">
+        <div class="div_home" id="userButton">
+            <a class="home2" href="/jpetstore/SelfCenter.html"><span>个人中心</span></a>
+            <a class="home5" href="/jpetstore/MyCart.html"><span>购物车</span></a>
+        </div>
+        <a class="img_yincang" href="#top"><span>回到顶部</span></a>
+    </div>
+</footer>
+</template>
+
+<script>
+	import { defineComponent } from "vue"
+	import navigationBar from '../../components/header.vue'
+	
+	export default defineComponent({
+		name: "details",
+		data(){
+			return {
+                //作为选择依据
+                current: 0,
+                //购买数量
+                number: 1,
+                max_Number: 16,
+				productId:'1',
+                category:'狗狗',
+                productNameChinese:'金毛',
+                productNameEnglish:'Golden Retriever',
+                productCharacter:'活泼、忠诚、憨厚、友善',
+                productAncestry:'苏格兰',
+                productDisease:'髋关节发育不良',
+                productLife:'10-15年',
+                productIntroduce:'金毛巡回猎犬（Golden Retriever），原产于苏格兰，祖先有雪达犬血统，因有较强的游泳能力，并能把猎物从水中叼回给主人，故最初用作狩猎及巡回被枪猎射落的水鸟，AKC分类属于运动犬组。',
+                productImage:'/jpetstore/image/pet/1.jpg',
+                price:8807.95,
+                name:'成年雄性',
+                petItemList:[
+                    {
+                        "itemId":1,
+                        "itemSpecification":"成年雄性",
+                        "itemPrice":8807.95,
+                        "itemStock":16
+                    },
+                    {
+                        "itemId":2,
+                        "itemSpecification":"幼年雄性",
+                        "itemPrice":9807.45,
+                        "itemStock":0
+                    }
+                ]
+			}
+		},
+		components: {navigationBar},
+        mounted: function () {
+            // this.ready()
+        },
+		methods: {
+            ready(){
+                let that = this;
+                let productId = JSON.parse(sessionStorage.getItem("pet"));
+                let settings = {
+                    url: "/jpetstore/pets/" + productId,
+                    method: "GET"
+                };
+
+                $.ajax(settings).done(function (response) {
+                    that.productId = response.data.productId;
+                    that.category = response.data.category; 
+                    that.productAncestry = response.data.productAncestry;
+                    that.productCharacter = response.data.productCharacter;
+                    that.productNameChinese = response.data.productNameChinese;
+                    that.productNameEnglish = response.data.productNameEnglish;
+                    that.productLife = response.data.productLife;
+                    that.productCharacter = response.data.productCharacter;
+                    that.productImage = response.data.productImage;
+                    that.productIntroduce = response.data.productIntroduce;
+                    that.petItemList = response.data.petItemList;
+                    that.price = response.data.petItemList[0].itemPrice;
+                    that.name = response.data.petItemList[0].itemSpecification;
+                    that.max_Number = response.data.petItemList[0].itemStock;
+                });
+            },
+            //选择小类
+            chooseItem(index,pet){
+                let that = this;
+                that.current = index;
+                that.max_Number = pet.itemStock;
+                that.number = 1;
+                that.price= pet.itemPrice;
+                that.name = pet.itemSpecification;
+            }
+		},
+	})
+</script>
+
+<style scoped>
+	@import '../../assets/css/style.css';
+	@import '../../assets/css/base.css';
+	@import '../../assets/css/common.css';
+	@import '../../assets/css/detail.css';
+</style>

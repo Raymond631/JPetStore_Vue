@@ -13,42 +13,31 @@
         <div class="layout_panel">
             <div class="mian-content">
                 <div class="nav_tabs" id="nav-tabs">
-                    <a class="navtab-link now" href="javascript: void(0);">登录</a>
+                    <a class="navtab-link now" href="javascript: void(0);">修改密码</a>
                 </div>
                 <div class="loginbox">
                     <div class="btn login_area">
-                        <div autocomplete="off" method="post">
-                            <input class="item_account" id="username" name="userId" placeholder="账号"
-                                   type="text">
-                            <input class="item_account" id="pwd" name="password" placeholder="密码"
-                                   type="password">
-                            <input class="code_input" id="code" name="vCode" placeholder="验证码"
+                        <div>
+                            <input class="item_account" id="password_old" name="password_old" placeholder="原密码"
+                                   required="required" type="password">
+                            <div class="err_tip" id="name_repeat"></div>
+                            <input class="item_account" id="password_new" name="password_new" placeholder="新密码"
+                                   required="required" type="password">
+                            <input class="item_account" id="password_repeat" name="password_repeat"
+                                   placeholder="确认密码"
+                                   required="required" type="password">
+                            <input class="code_input" id="code" name="vCode" placeholder="验证码" required="required"
                                    type="text">
                             <a class="code_link">
                                 <img alt="验证码" class="code_img" id="verificationCode"
                                      onclick="newVerification()" src="/jpetstore/verificationCode">
                             </a>
-                            <div class="err_tip" id="errer">
-                                <span class="error-con" id="errorMessage"></span>
-                            </div>
-                            <button class="btnadpt item_account" onclick="login()">登录</button>
+                            <div class="err_tip" id="errer"></div>
+                            <button class="btnadpt item_account" onclick="changePassword()">保存</button>
                         </div>
                         <div class="other_panel myclear">
                             <div class="links_area">
-                                <router-link to="/register">没有账号？立即注册</router-link>
-                            </div>
-                            <div class="other_login_type">
-                                <!--<p>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;其他方式登录&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</p>-->
-                                <!--<div class="oth_type_links" id="sns-login-links">-->
-                                <!--    <a class="icon_type btn_alipay" data-type="alipay" href="javascript: void(0);"-->
-                                <!--       title="支付宝登录">-->
-                                <!--        <i class="btn_sns_icontype icon_default_alipay"></i>-->
-                                <!--    </a>-->
-                                <!--    <a class="icon_type btn_weibo" data-type="weibo" href="javascript: void(0);"-->
-                                <!--       title="微博登录">-->
-                                <!--        <i class="btn_sns_icontype icon_default_weibo"></i>-->
-                                <!--    </a>-->
-                                <!--</div>-->
+                                <a href="/jpetstore/">返回首页</a>
                             </div>
                         </div>
                     </div>
@@ -72,14 +61,13 @@
         </div>
     </footer>
 </div>
-  </template>
-  
-  <script>
+</template>
+<script>
       import { defineComponent } from "vue"
-      import '../../utils/login.js'
+      import '../../utils/SelfCenter.js'
       
       export default defineComponent({
-          name: "login",
+          name: "selfCenter",
           data(){
               return {
                   data:''

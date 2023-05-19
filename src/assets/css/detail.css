@@ -93,6 +93,11 @@
 }
 
 .current {
+    /* text-align: center;
+    font: 16px/20px 'Microsoft YaHei';
+    width: 320px;
+    height: 60px;
+    margin: 0 auto; */
     color: red;
     border: red solid 2px!important;
 }
@@ -218,9 +223,9 @@
 .choose_amount {
     position: relative;
     float: left;
-    width: 50px;
+    width: 150px;
     height: 46px;
-    background-color: pink;
+    /* background-color: pink; */
 }
 
 .choose_amount input {

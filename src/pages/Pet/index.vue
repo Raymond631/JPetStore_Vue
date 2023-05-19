@@ -129,8 +129,6 @@
 
     <div class="page-main">
         <div class="container" style="font: 10px 'Microsoft YaHei'">
-
-
             <a name="dogs"></a>
             <div class="main main-iphon">
                 <div class="box-hd">
@@ -152,6 +150,11 @@
                     </div>
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="dogList">
+                            <li class="brick-item brick-item-m" v-for="dog in dogs" :key="dog.productId" @click="getPetDetails(dog)"> 
+                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{dog.productImage}}"></div>
+                                <h3 class="title">{{dog.productNameChinese}}</h3>
+                                <p class="desc">{{dog.productNameEnglish}}</p>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -175,6 +178,11 @@
                     </div>
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="catList">
+                            <li class="brick-item brick-item-m" v-for="cat in cats" :key="cat.productId" @click="getPetDetails(cat)"> 
+                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{cat.productImage}}"></div>
+                                <h3 class="title">{{cat.productNameChinese}}</h3>
+                                <p class="desc">{{cat.productNameEnglish}}</p>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -199,6 +207,11 @@
                     </div>
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="birdList">
+                            <li class="brick-item brick-item-m" v-for="bird in birds" :key="bird.productId" @click="getPetDetails(bird)"> 
+                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{bird.productImage}}"></div>
+                                <h3 class="title">{{bird.productNameChinese}}</h3>
+                                <p class="desc">{{bird.productNameEnglish}}</p>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -223,6 +236,11 @@
                     </div>
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="fishList">
+                            <li class="brick-item brick-item-m" v-for="fish in fishes" :key="fish.productId" @click="getPetDetails(fish)"> 
+                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{fish.productImage}}"></div>
+                                <h3 class="title">{{fish.productNameChinese}}</h3>
+                                <p class="desc">{{fish.productNameEnglish}}</p>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -247,14 +265,30 @@
                     </div>
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="reptileList">
+                            <li class="brick-item brick-item-m" v-for="reptile in reptiles" :key="reptile.productId" @click="getPetDetails(reptile)"> 
+                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{reptile.productImage}}"></div>
+                                <h3 class="title">{{reptile.productNameChinese}}</h3>
+                                <p class="desc">{{reptile.productNameEnglish}}</p>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
     <!-- 主体内容的分页部分end -->
 </section>
+<footer>
+    <!-- 固定 -->
+    <div class="div_home">
+        <div class="div_home" id="userButton">
+            <a class="home2" href="/jpetstore/SelfCenter.html"><span>个人中心</span></a>
+            <a class="home5" href="/jpetstore/MyCart.html"><span>购物车</span></a>
+            <a class="img_yincang" href="#top"><span>回到顶部</span></a>
+        </div>
+    </div>
+</footer>
 </template>
 
 <script>
@@ -265,13 +299,83 @@
 		name: "index",
 		data(){
 			return {
-				data:''
+				dogs:[
+                    {
+                        "productId":1,
+                        "category":"狗狗",
+                        "productNameChinese":"金毛",
+                        "productNameEnglish":"Golden Retriever",
+                        "productImage":"/jpetstore/image/pet/1.jpg"
+                    },
+                    
+                ],
+                cats:[
+                    {
+                        "productId":17,
+                        "category":"猫咪",
+                        "productNameChinese":"波斯猫",
+                        "productNameEnglish":"Persian",
+                        "productImage":"/jpetstore/image/pet/17.jpg"
+
+                    }
+                ],
+                birds:[
+                    {
+                        "productId":25,
+                        "category":"小宠",
+                        "productNameChinese":"狨猴",
+                        "productNameEnglish":"Marmoset",
+                        "productImage":"/jpetstore/image/pet/25.jpg"
+                    }
+                ],
+                fishes:[
+                    {
+                        "productId":37,
+                        "category":"水族",
+                        "productNameChinese":"金龙鱼",
+                        "productNameEnglish":"Scleropagesformosus",
+                        "productImage":"/jpetstore/image/pet/37.jpg"
+                    }
+                ],
+                reptiles:[
+                    {
+                        "productId":53,
+                        "category":"爬虫",
+                        "productNameChinese":"巴西红耳龟 ",
+                        "productNameEnglish":"Trachemys scripta elegans",
+                        "productImage":"/jpetstore/image/pet/53.jpg"
+                    }
+                ]
 			}
 		},
 		components: {navigationBar},
+        mounted: function () {
+            this.ready()
+        },
 		methods: {
-			
-		},
+            ready(){
+                let that = this
+                let settings = {
+                "url": "http://localhost:8080/jpetstore/pets",
+                "method": "GET"
+                };
+
+                $.ajax(settings).done(function (response) {
+                that.dogs = response.data.dog;
+                that.cats = response.data.cat;
+                that.birds = response.data.bird;
+                that.fishes = response.data.fish;
+                that.reptiles = response.data.reptile;
+            });
+            },
+
+            getPetDetails(pet){
+                let that = this;
+                console.log(pet)
+                sessionStorage.setItem("pet", JSON.stringify(pet.productId));
+                that.$router.push('/details')
+            }
+        },
 	})
 </script>
 

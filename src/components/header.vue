@@ -35,7 +35,7 @@
             <div class="topbar-info" id="notLogin">
                 <router-link to="/login">登录</router-link>
                 <span class="sep">|</span>
-                <a href="/jpetstore/Register.html">注册</a>
+                <router-link to="/register">注册</router-link>
             </div>
             <div class="topbar-info" id="logined">
                 <a href="javascript:logout();">退出登录</a>
@@ -60,7 +60,7 @@
             <nav class="header-nav myclear">
                 <ul id="J_childrenList">
                     <li class="nav-item">
-                        <a href="/jpetstore/#dogs">狗狗</a>
+                        <router-link to="/details">狗狗</router-link>
                     </li>
                     <li class="nav-item">
                         <a href="/jpetstore/#cats">猫猫</a>

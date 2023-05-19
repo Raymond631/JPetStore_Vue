@@ -1,6 +1,11 @@
 ﻿/* 重置页面 */
 @import url("../css/reset.css");
 
+*{
+    margin:0;
+    padding:0
+}
+
 body {
     font: 14px "Arial", "华文细黑";
     color: #333;
