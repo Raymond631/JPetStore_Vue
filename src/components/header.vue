@@ -26,10 +26,8 @@
             </nav>
             <!-- 购物车 -->
             <div class="topbar-cart top-cart" id="J_miniCartTrigger">
-                <a href="/jpetstore/MyCart.html">
-                    <em></em>
-                    购物车
-                </a>
+              <router-link to="/MyCart">购物车</router-link>
+              <em></em>
             </div>
             <!-- 登录注册 -->
             <div class="topbar-info" id="notLogin">
@@ -40,7 +38,7 @@
             <div class="topbar-info" id="logined">
                 <a href="javascript:logout();">退出登录</a>
                 <span class="sep">|</span>
-                <a href="/jpetstore/MyOrder.html">我的订单</a>
+              <router-link to="/MyOrder">我的订单</router-link>
             </div>
         </div>
     </div>
@@ -91,18 +89,18 @@
     </div>
 </header>
 </template>
-  
+
 <script>
     import '../utils/index.js'
 
 	export default{
 		data(){
 			return {
-				
+
 			}
 		},
 		methods: {
-			
+
 		},
 	}
 </script>

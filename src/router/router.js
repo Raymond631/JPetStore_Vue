@@ -1,38 +1,50 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-  
+
 
 const router = createRouter({
     history:createWebHashHistory(),
     routes:[
       {
-        path:'/', 
+        path:'/',
         name: "index",
         component: () =>
-            import ('../pages/Pet/index.vue'),   
+            import ('../pages/Pet/index.vue'),
       },
-      { 
+      {
         path:'/login',
         name: "login",
         component: () =>
             import ('../pages/User/login.vue'),
       },
-      { 
+      {
         path:'/register',
         name: "register",
         component: () =>
             import ('../pages/User/register.vue'),
       },
-      { 
+      {
         path:'/selfCenter',
         name: "selfCenter",
         component: () =>
             import ('../pages/User/selfCenter.vue'),
-      }, 
-      { 
-        path:'/details', 
+      },
+      {
+        path:'/details',
         name: "details",
         component: () =>
-            import ('../pages/Pet/details.vue'),   
+            import ('../pages/Pet/details.vue'),
+      },
+      {
+        path:'/MyOrder',
+        name: "MyOrder",
+        component: () =>
+            import ('../pages/Order/MyOrder.vue'),
+      },
+      {
+        path:'/OrderDetails',
+        name: "OrderDetails",
+        component: () =>
+            import ('../pages/Order/OrderDetails.vue'),
       },
     ],
 })
