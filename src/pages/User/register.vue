@@ -18,18 +18,18 @@
                 <div class="loginbox">
                     <div class="btn login_area">
                         <div action="/jpetstore/User/register" autocomplete="off" id="registerForm" method="post">
-                            <input class="item_account" id="username" name="userId" placeholder="账号"
+                            <input class="item_account" v-model="username" id="username" name="userId" placeholder="账号"
                                    type="text">
                             <div class="err_tip" id="name_repeat"></div>
-                            <input class="item_account" id="pwd" name="password" placeholder="密码"
+                            <input class="item_account"  v-model="password" id="pwd" name="password" placeholder="密码"
                                    type="password">
-                            <input class="item_account" id="password_repeat" name="password_repeat" placeholder="确认密码"
+                            <input class="item_account" v-model="comfirmPassword" id="password_repeat" name="password_repeat" placeholder="确认密码"
                                     type="password">
-                            <input class="code_input" id="code" name="vCode" placeholder="验证码"
+                            <input class="code_input" v-model="verificationCode" id="code" name="vCode" placeholder="验证码"
                                    type="text">
                             <a class="code_link">
                                 <img alt="验证码" class="code_img" id="verificationCode"
-                                     onclick="newVerification()" src="/jpetstore/verificationCode">
+                                     onclick="newVerification()" src="{{ imgSrc }}">
                             </a>
                             <div class="err_tip" id="errer">
                                 <span class="error-con" id="errorMessage"></span>
@@ -66,17 +66,78 @@
     </template>
 <script>
       import { defineComponent } from "vue"
-      import '../../utils/register.js'
       
       export default defineComponent({
           name: "register",
           data(){
               return {
-                  data:''
+                username:'',
+                password:'',
+                comfirmPassword:'',
+                verificationCode:'',
+                imgSrc:'',
               }
           },
           methods: {
-              
+            newVerification(){
+                let that = this;
+                that.imgSrc = "http://localhost:8080/jpetstore/verificationCode?" + new Date().getMilliseconds();
+            },
+
+            regoster(){
+                let that = this;
+                let verificationCodeID = getCookie('CaptchaCode');
+                RemoveCookie('CaptchaCode');
+                let data = {
+                    username: that.username,
+                    password: that.password,
+                    rePassword: that.comfirmPassword,
+                    id: verificationCodeID,
+                    code: that.verificationCode
+                };
+                let config = {
+                    url: "http://localhost:8080/jpetstore/user",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: data
+                };
+
+                axios(config)
+                .then(function (response) {
+                    that.$router.push('/')
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            getCookie(cname) {
+                let name = cname + "=";
+                let ca = document.cookie.split(";");
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i].trim();
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+            },
+
+            RemoveCookie(cookieName) {
+                let cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    if (cookies[i].indexOf(" ") == 0) {
+                        cookies[i] = cookies[i].substring(1);
+                    }
+                    if (cookies[i].indexOf(cookieName) == 0) {
+                        let exp = new Date();
+                        exp.setTime(exp.getTime() - 60 * 1000);
+                        document.cookie = cookies[i] + ";expires=" + exp.toUTCString();
+                        break;
+                    }
+                }
+            }
           },
       })
   </script>

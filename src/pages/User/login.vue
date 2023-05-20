@@ -18,15 +18,15 @@
                 <div class="loginbox">
                     <div class="btn login_area">
                         <div autocomplete="off" method="post">
-                            <input class="item_account" id="username" name="userId" placeholder="账号"
+                            <input class="item_account" id="username" v-model="username" name="userId" placeholder="账号"
                                    type="text">
-                            <input class="item_account" id="pwd" name="password" placeholder="密码"
+                            <input class="item_account" id="pwd" v-model="password" name="password" placeholder="密码"
                                    type="password">
-                            <input class="code_input" id="code" name="vCode" placeholder="验证码"
+                            <input class="code_input" id="code" v-model="verificationCode" name="vCode" placeholder="验证码"
                                    type="text">
                             <a class="code_link">
                                 <img alt="验证码" class="code_img" id="verificationCode"
-                                     onclick="newVerification()" src="/jpetstore/verificationCode">
+                                     onclick="newVerification()" src="{{ imgSrc }}">
                             </a>
                             <div class="err_tip" id="errer">
                                 <span class="error-con" id="errorMessage"></span>
@@ -38,17 +38,6 @@
                                 <router-link to="/register">没有账号？立即注册</router-link>
                             </div>
                             <div class="other_login_type">
-                                <!--<p>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;其他方式登录&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</p>-->
-                                <!--<div class="oth_type_links" id="sns-login-links">-->
-                                <!--    <a class="icon_type btn_alipay" data-type="alipay" href="javascript: void(0);"-->
-                                <!--       title="支付宝登录">-->
-                                <!--        <i class="btn_sns_icontype icon_default_alipay"></i>-->
-                                <!--    </a>-->
-                                <!--    <a class="icon_type btn_weibo" data-type="weibo" href="javascript: void(0);"-->
-                                <!--       title="微博登录">-->
-                                <!--        <i class="btn_sns_icontype icon_default_weibo"></i>-->
-                                <!--    </a>-->
-                                <!--</div>-->
                             </div>
                         </div>
                     </div>
@@ -76,17 +65,77 @@
   
   <script>
       import { defineComponent } from "vue"
-      import '../../utils/login.js'
-      
+      import axios from "axios"
+
       export default defineComponent({
           name: "login",
           data(){
               return {
-                  data:''
+                username:'',
+                password:'',
+                verificationCode:'',
+                imgSrc:''
               }
           },
           methods: {
-              
+            newVerification(){
+                let that = this;
+                that.imgSrc = "http://localhost:8080/jpetstore/verificationCode?" + new Date().getMilliseconds();
+            },
+
+            login(){
+                let that = this;
+                let verificationCodeID = getCookie('CaptchaCode');
+                RemoveCookie('CaptchaCode');
+                let data = {
+                    username: that.username,
+                    password: that.password,
+                    id: verificationCodeID,
+                    code: that.verificationCode
+                };
+                let config = {
+                    url: "http://localhost:8080/jpetstore/token",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: data
+                };
+
+                axios(config)
+                .then(function (response) {
+                    that.$router.push('/')
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
+
+            getCookie(cname) {
+                let name = cname + "=";
+                let ca = document.cookie.split(";");
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i].trim();
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+            },
+
+            RemoveCookie(cookieName) {
+                let cookies = document.cookie.split(";");
+                for (let i = 0; i < cookies.length; i++) {
+                    if (cookies[i].indexOf(" ") == 0) {
+                        cookies[i] = cookies[i].substring(1);
+                    }
+                    if (cookies[i].indexOf(cookieName) == 0) {
+                        let exp = new Date();
+                        exp.setTime(exp.getTime() - 60 * 1000);
+                        document.cookie = cookies[i] + ";expires=" + exp.toUTCString();
+                        break;
+                    }
+                }
+            }
           },
       })
   </script>

@@ -70,7 +70,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="/jpetstore/#fish">水族</a>
-                    </li>
+                    </li> 
                     <li class="nav-item">
                         <a href="/jpetstore/#reptiles">爬虫</a>
                     </li>
@@ -78,9 +78,9 @@
             </nav>
             <!-- 搜索 -->
             <div class="myclear header-search">
-                <form action="/jpetstore/Search.html" autocomplete="off" method="get">
+                <form :model="searchContent" autocomplete="off" method="get">
                     <input class="search-text" id="search" name="keyword" style="border-color: #ff6700" type="text"/>
-                    <input class="search-btn" id="search_btn" style="border-color: #ff6700" type="submit" value=""/>
+                    <input class="search-btn" id="search_btn" style="border-color: #ff6700" type="submit" @click="search" value=""/>
                 </form>
                 <div class="keyword-list" id="J_keywordList" style="font: 10px 'Microsoft YaHei'">
                     <ul class="result-list" id="tips">
@@ -98,11 +98,13 @@
 	export default{
 		data(){
 			return {
-				
+				searchContent:''
 			}
 		},
 		methods: {
-			
+			search(){
+                console.log('search')
+            }
 		},
 	}
 </script>

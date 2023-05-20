@@ -4,11 +4,10 @@ $('#errorMessage').text('');
 
 function newVerification() {
     let image = document.getElementById("verificationCode");
-    image.src = "/jpetstore/verificationCode?" + new Date().getMilliseconds();
+    image.src = "http://localhost:8080/jpetstore/verificationCode?" + new Date().getMilliseconds();
 }
 
 function login(){
-
     let username = $('#username').val();
     let password = $('#pwd').val();
     let code = $('#code').val();

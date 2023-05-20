@@ -41,7 +41,6 @@
                     <em id="product_introduce">{{ productIntroduce }}</em>
                 </div>
             </div>
-
             <div style="float: left;width: 450px;margin-top: 29px;margin-bottom: 20px">
                 <dl class="choose_color">
                     <dt style="font: 20px 'Microsoft YaHei';margin-bottom: 20px">选择子项</dt>
@@ -56,12 +55,12 @@
                     <dl class="summary_price">
                         <dt style="font: 20px 'Microsoft YaHei'">价格</dt>
                         <dd>
-                            <i class="price" id="pet_price">{{ price }}</i>
+                            <i class="price" id="pet_price">{{ totalPrice }}</i>
                         </dd>
                     </dl>
                     <div class="choose_btns">
                         <div class="choose_amount">
-                            <el-input-number v-model="number" :min="1" :max="max_Number" @change="handleChange" size="mx-4" style="margin-top: 5px;" />
+                            <el-input-number v-model="number" :min="1" :max="max_Number" @change="changeNumber" size="mx-4" style="margin-top: 5px;" />
                             <!-- <input id="item_num" type="text" value="1">
                             <a class="add" href="javascript:num_up();">+</a>
                             <a class="reduce" href="javascript:num_down();">-</a> -->
@@ -90,6 +89,8 @@
 <script>
 	import { defineComponent } from "vue"
 	import navigationBar from '../../components/header.vue'
+    import { Decimal } from 'decimal.js'
+    import axios from "axios"
 	
 	export default defineComponent({
 		name: "details",
@@ -111,6 +112,7 @@
                 productIntroduce:'金毛巡回猎犬（Golden Retriever），原产于苏格兰，祖先有雪达犬血统，因有较强的游泳能力，并能把猎物从水中叼回给主人，故最初用作狩猎及巡回被枪猎射落的水鸟，AKC分类属于运动犬组。',
                 productImage:'/jpetstore/image/pet/1.jpg',
                 price:8807.95,
+                totalPrice:8807.95,
                 name:'成年雄性',
                 petItemList:[
                     {
@@ -136,12 +138,14 @@
             ready(){
                 let that = this;
                 let productId = JSON.parse(sessionStorage.getItem("pet"));
-                let settings = {
-                    url: "/jpetstore/pets/" + productId,
-                    method: "GET"
+                var config = {
+                    method: 'get',
+                    url: "http://localhost:8080/jpetstore/pets/" + productId,
+                    headers: { }
                 };
 
-                $.ajax(settings).done(function (response) {
+                axios(config)
+                .then(function (response) {
                     that.productId = response.data.productId;
                     that.category = response.data.category; 
                     that.productAncestry = response.data.productAncestry;
@@ -156,7 +160,12 @@
                     that.price = response.data.petItemList[0].itemPrice;
                     that.name = response.data.petItemList[0].itemSpecification;
                     that.max_Number = response.data.petItemList[0].itemStock;
+                })
+                .catch(function (error) {
+                    console.log(error);
                 });
+
+            
             },
             //选择小类
             chooseItem(index,pet){
@@ -164,8 +173,14 @@
                 that.current = index;
                 that.max_Number = pet.itemStock;
                 that.number = 1;
-                that.price= pet.itemPrice;
                 that.name = pet.itemSpecification;
+                that.price = pet.itemPrice;
+                that.totalPrice = pet.itemPrice
+            },
+            //改变购买数量
+            changeNumber(){
+                let that = this;
+                that.totalPrice = new Decimal(that.number).mul(new Decimal(that.price))
             }
 		},
 	})
