@@ -132,7 +132,7 @@
 		},
 		components: {navigationBar},
         mounted: function () {
-            // this.ready()
+            this.ready()
         },
 		methods: {
             ready(){
@@ -141,25 +141,25 @@
                 var config = {
                     method: 'get',
                     url: "http://localhost:8080/jpetstore/pets/" + productId,
-                    headers: { }
+                    headers: {}
                 };
 
                 axios(config)
                 .then(function (response) {
-                    that.productId = response.data.productId;
-                    that.category = response.data.category; 
-                    that.productAncestry = response.data.productAncestry;
-                    that.productCharacter = response.data.productCharacter;
-                    that.productNameChinese = response.data.productNameChinese;
-                    that.productNameEnglish = response.data.productNameEnglish;
-                    that.productLife = response.data.productLife;
-                    that.productCharacter = response.data.productCharacter;
-                    that.productImage = response.data.productImage;
-                    that.productIntroduce = response.data.productIntroduce;
-                    that.petItemList = response.data.petItemList;
-                    that.price = response.data.petItemList[0].itemPrice;
-                    that.name = response.data.petItemList[0].itemSpecification;
-                    that.max_Number = response.data.petItemList[0].itemStock;
+                    that.productId = response.data.data.productId;
+                    that.category = response.data.data.category; 
+                    that.productAncestry = response.data.data.productAncestry;
+                    that.productCharacter = response.data.data.productCharacter;
+                    that.productNameChinese = response.data.data.productNameChinese;
+                    that.productNameEnglish = response.data.data.productNameEnglish;
+                    that.productLife = response.data.data.productLife;
+                    that.productCharacter = response.data.data.productCharacter;
+                    that.productImage = response.data.data.productImage;
+                    that.productIntroduce = response.data.data.productIntroduce;
+                    that.petItemList = response.data.data.petItemList;
+                    that.price = response.data.data.petItemList[0].itemPrice;
+                    that.name = response.data.data.petItemList[0].itemSpecification;
+                    that.max_Number = response.data.data.petItemList[0].itemStock;
                 })
                 .catch(function (error) {
                     console.log(error);

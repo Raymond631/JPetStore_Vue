@@ -65,14 +65,14 @@ a {
 }
 
 .site-header .logo:before {
-    background: url(/jpetstore/image/header/logo.png) no-repeat 50% 50%;
+    background: url(../image/header/logo.png) no-repeat 50% 50%;
     opacity: 1;
     filter: alpha(opacity=100) \9;
     transform: translate3d(0, 0, 0);
 }
 
 .site-header .logo:after {
-    background: url(/jpetstore/image/header/logo.png) no-repeat 50% 50%;
+    background: url(../image/header/logo.png) no-repeat 50% 50%;
     opacity: 0;
     filter: alpha(opacity=0) \9;
     margin-left: -180px;
@@ -484,6 +484,7 @@ a {
 
 .cart-bar .section-left {
     float: left;
+    margin-left: -21px;
 }
 
 .cart-bar .back-shopping,

@@ -129,12 +129,12 @@
 
     <div class="page-main">
         <div class="container" style="font: 10px 'Microsoft YaHei'">
-            <a name="dogs"></a>
+            <a id="dogs"></a>
             <div class="main main-iphon">
                 <div class="box-hd">
                     <h2>狗狗</h2>
                     <div class="more2">
-                        <a class="more-link" href="javascript:;">查看全部<i></i></a>
+                        <a class="more-link" @click="showAll('狗狗')">查看全部<i></i></a>
                     </div>
                 </div>
                 <div class="box-content myclear">
@@ -160,12 +160,12 @@
                 </div>
             </div>
 
-            <a name="cats"></a>
+            <a id="cats"></a>
             <div class="main main-iphon">
                 <div class="box-hd">
                     <h2>猫猫</h2>
                     <div class="more2">
-                        <a class="more-link" href="javascript:;">查看全部<i></i></a>
+                        <a class="more-link" @click="showAll('猫咪')">查看全部<i></i></a>
                     </div>
                 </div>
                 <div class="box-content myclear">
@@ -188,12 +188,12 @@
                 </div>
             </div>
 
-            <a name="birds"></a>
+            <a id="birds"></a>
             <div class="main main-iphon">
                 <div class="box-hd">
                     <h2>小宠</h2>
                     <div class="more2">
-                        <a class="more-link" href="javascript:;">查看全部<i></i></a>
+                        <a class="more-link" @click="showAll('小宠')">查看全部<i></i></a>
                     </div>
                 </div>
                 <div class="box-content myclear">
@@ -217,12 +217,12 @@
                 </div>
             </div>
 
-            <a name="fish"></a>
+            <a id="fish"></a>
             <div class="main main-iphon">
                 <div class="box-hd">
                     <h2>水族</h2>
                     <div class="more2">
-                        <a class="more-link" href="javascript:;">查看全部<i></i></a>
+                        <a class="more-link" @click="showAll('水族')">查看全部<i></i></a>
                     </div>
                 </div>
                 <div class="box-content myclear">
@@ -246,12 +246,12 @@
                 </div>
             </div>
 
-            <a name="reptiles"></a>
+            <a id="reptiles"></a>
             <div class="main main-iphon">
                 <div class="box-hd">
                     <h2>爬虫</h2>
                     <div class="more2">
-                        <a class="more-link" href="javascript:;">查看全部<i></i></a>
+                        <a class="more-link" @click="showAll('爬虫')">查看全部<i></i></a>
                     </div>
                 </div>
                 <div class="box-content myclear">
@@ -285,7 +285,7 @@
         <div class="div_home" id="userButton">
             <a class="home2" href="/jpetstore/SelfCenter.html"><span>个人中心</span></a>
             <a class="home5" href="/jpetstore/MyCart.html"><span>购物车</span></a>
-            <a class="img_yincang" href="#top"><span>回到顶部</span></a>
+            <a class="img_yincang" href="/jpetstore"><span>回到顶部</span></a>
         </div>
     </div>
 </footer>
@@ -294,58 +294,17 @@
 <script>
 	import { defineComponent } from "vue"
 	import navigationBar from '../../components/header.vue'
+    import axios from "axios"
 	
 	export default defineComponent({
 		name: "index",
 		data(){
 			return {
-				dogs:[
-                    {
-                        "productId":1,
-                        "category":"狗狗",
-                        "productNameChinese":"金毛",
-                        "productNameEnglish":"Golden Retriever",
-                        "productImage":"/jpetstore/image/pet/1.jpg"
-                    },
-                    
-                ],
-                cats:[
-                    {
-                        "productId":17,
-                        "category":"猫咪",
-                        "productNameChinese":"波斯猫",
-                        "productNameEnglish":"Persian",
-                        "productImage":"/jpetstore/image/pet/17.jpg"
-
-                    }
-                ],
-                birds:[
-                    {
-                        "productId":25,
-                        "category":"小宠",
-                        "productNameChinese":"狨猴",
-                        "productNameEnglish":"Marmoset",
-                        "productImage":"/jpetstore/image/pet/25.jpg"
-                    }
-                ],
-                fishes:[
-                    {
-                        "productId":37,
-                        "category":"水族",
-                        "productNameChinese":"金龙鱼",
-                        "productNameEnglish":"Scleropagesformosus",
-                        "productImage":"/jpetstore/image/pet/37.jpg"
-                    }
-                ],
-                reptiles:[
-                    {
-                        "productId":53,
-                        "category":"爬虫",
-                        "productNameChinese":"巴西红耳龟 ",
-                        "productNameEnglish":"Trachemys scripta elegans",
-                        "productImage":"/jpetstore/image/pet/53.jpg"
-                    }
-                ]
+				dogs:[],
+                cats:[],
+                birds:[],
+                fishes:[],
+                reptiles:[]
 			}
 		},
 		components: {navigationBar},
@@ -355,23 +314,32 @@
 		methods: {
             ready(){
                 let that = this
-                let settings = {
-                "url": "http://localhost:8080/jpetstore/pets",
-                "method": "GET"
+                let config = {
+                    url: "http://localhost:8080/jpetstore/pets",
+                    method: "GET",
+                    headers: {},
                 };
+                axios(config)
+                .then(function (response) {
+                    that.dogs = response.data.data.dog;
+                    that.cats = response.data.data.cat;
+                    that.birds = response.data.data.bird;
+                    that.fishes = response.data.data.fish;
+                    that.reptiles = response.data.data.reptile;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            },
 
-                $.ajax(settings).done(function (response) {
-                that.dogs = response.data.dog;
-                that.cats = response.data.cat;
-                that.birds = response.data.bird;
-                that.fishes = response.data.fish;
-                that.reptiles = response.data.reptile;
-            });
+            showAll(category){
+                let that = this;
+                sessionStorage.setItem("keyword", JSON.stringify(category));
+                that.$router.push('/search')
             },
 
             getPetDetails(pet){
                 let that = this;
-                console.log(pet)
                 sessionStorage.setItem("pet", JSON.stringify(pet.productId));
                 that.$router.push('/details')
             }

@@ -25,20 +25,23 @@
                 <a href="#" id="J_siteDownloadApp">下载app</a>
             </nav>
             <!-- 购物车 -->
-            <div class="topbar-cart top-cart" id="J_miniCartTrigger">
-                <a href="/jpetstore/MyCart.html">
+            <div class="topbar-cart top-cart" id="J_miniCartTrigger"  v-if="user">
+                <router-link to="/cart"> 
                     <em></em>
                     购物车
-                </a>
+                </router-link>
+                <!-- <a href="/jpetstore/MyCart.html">
+                   
+                </a> -->
             </div>
             <!-- 登录注册 -->
-            <div class="topbar-info" id="notLogin">
+            <div class="topbar-info" id="notLogin" v-if="!user">
                 <router-link to="/login">登录</router-link>
                 <span class="sep">|</span>
                 <router-link to="/register">注册</router-link>
             </div>
-            <div class="topbar-info" id="logined">
-                <a href="javascript:logout();">退出登录</a>
+            <div class="topbar-info" id="logined"  v-if="user">
+                <a @click="logout">退出登录</a>
                 <span class="sep">|</span>
                 <a href="/jpetstore/MyOrder.html">我的订单</a>
             </div>
@@ -60,30 +63,31 @@
             <nav class="header-nav myclear">
                 <ul id="J_childrenList">
                     <li class="nav-item">
-                        <router-link to="/details">狗狗</router-link>
+                        <a @click="goAnchor('#dogs')">狗狗</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/jpetstore/#cats">猫猫</a>
+                        <a @click="goAnchor('#cats')">猫猫</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/jpetstore/#birds">小宠</a>
+                        <a @click="goAnchor('#birds')">小宠</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/jpetstore/#fish">水族</a>
+                        <a @click="goAnchor('#fish')">水族</a>
                     </li> 
                     <li class="nav-item">
-                        <a href="/jpetstore/#reptiles">爬虫</a>
+                        <a @click="goAnchor('#reptiles')">爬虫</a>
                     </li>
                 </ul>
             </nav>
             <!-- 搜索 -->
             <div class="myclear header-search">
-                <form :model="searchContent" autocomplete="off" method="get">
-                    <input class="search-text" id="search" name="keyword" style="border-color: #ff6700" type="text"/>
+                <div >
+                    <input v-model="searchContent" class="search-text" id="search" name="keyword" style="border-color: #ff6700" type="text" @input="getTips"/>
                     <input class="search-btn" id="search_btn" style="border-color: #ff6700" type="submit" @click="search" value=""/>
-                </form>
+                </div>
                 <div class="keyword-list" id="J_keywordList" style="font: 10px 'Microsoft YaHei'">
                     <ul class="result-list" id="tips">
+                        <li v-for="tip in tips" :key="tip"><a @click="select(tip)">{{ tip }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -93,17 +97,80 @@
 </template>
   
 <script>
-    import '../utils/index.js'
+    import axios from "axios"
 
-	export default{
+	export default {
 		data(){
 			return {
-				searchContent:''
+				searchContent:'',
+                tips:[],
+                user:false
 			}
 		},
+        mounted: function () {
+            this.ready()
+        },
 		methods: {
+            ready(){
+                if(JSON.parse(sessionStorage.getItem("user"))!=null&&JSON.parse(sessionStorage.getItem("user"))!=''){
+                    this.user = true
+                }
+                else{
+                    this.user= false;
+                }
+            },
+            //锚点跳转
+            goAnchor(selector) {/*参数selector是id选择器（#anchor14）*/
+                document.querySelector(selector).scrollIntoView({
+                    behavior: "smooth"
+                });
+            },
+            getTips(){
+                let that = this;
+                let keyword = that.searchContent;
+                if (keyword !== null && keyword !== "") {
+                    let config = {
+                        url: "http://localhost:8080/jpetstore/pets/searchTip?keyword=" + encodeURIComponent(keyword),
+                        method: "GET",
+                        headers: {},
+                    };
+
+                    axios(config)
+                    .then(function (response) {
+                        console.log(response)
+                        that.tips=response.data.data
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }
+                else{
+                    that.tips='';
+                }
+            },
+
 			search(){
-                console.log('search')
+                let that = this;
+                let keyword = that.searchContent;
+                if (keyword !== null && keyword !== "") {
+                    sessionStorage.setItem("keyword", JSON.stringify(keyword));
+                    that.$router.push('/search')
+                } 
+            },
+            //这是搜索的一部分
+            select(pet){
+                let that = this;
+                console.log(pet)
+                let keyword = pet;
+                if (keyword !== null && keyword !== "") {
+                    sessionStorage.setItem("keyword", JSON.stringify(keyword));
+                    that.$router.push('/search')
+                } 
+            },
+            logout(){
+                sessionStorage.setItem("user", JSON.stringify(null));
+                this.user=false;
+                this.$router.push('/')
             }
 		},
 	}

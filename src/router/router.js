@@ -34,6 +34,18 @@ const router = createRouter({
         component: () =>
             import ('../pages/Pet/details.vue'),   
       },
+      { 
+        path:'/search', 
+        name: "search",
+        component: () =>
+            import ('../pages/Pet/search.vue'),   
+      },
+      { 
+        path:'/cart', 
+        name: "cart",
+        component: () =>
+            import ('../pages/Cart/cart.vue'),   
+      },
     ],
 })
 export default router;

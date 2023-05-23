@@ -25,13 +25,13 @@
                             <input class="code_input" id="code" v-model="verificationCode" name="vCode" placeholder="验证码"
                                    type="text">
                             <a class="code_link">
-                                <img alt="验证码" class="code_img" id="verificationCode"
-                                     onclick="newVerification()" src="{{ imgSrc }}">
+                                <img :src="imgSrc" alt="验证码" class="code_img" id="verificationCode"
+                                     @click="newVertification()">
                             </a>
                             <div class="err_tip" id="errer">
                                 <span class="error-con" id="errorMessage"></span>
                             </div>
-                            <button class="btnadpt item_account" onclick="login()">登录</button>
+                            <button class="btnadpt item_account" @click="login">登录</button>
                         </div>
                         <div class="other_panel myclear">
                             <div class="links_area">
@@ -77,20 +77,20 @@
                 imgSrc:''
               }
           },
+          mounted: function () {
+            this.newVertification()
+          },
           methods: {
-            newVerification(){
+            newVertification(){
                 let that = this;
                 that.imgSrc = "http://localhost:8080/jpetstore/verificationCode?" + new Date().getMilliseconds();
             },
 
             login(){
                 let that = this;
-                let verificationCodeID = getCookie('CaptchaCode');
-                RemoveCookie('CaptchaCode');
                 let data = {
                     username: that.username,
                     password: that.password,
-                    id: verificationCodeID,
                     code: that.verificationCode
                 };
                 let config = {
@@ -104,6 +104,8 @@
 
                 axios(config)
                 .then(function (response) {
+                    //in表示登录
+                    sessionStorage.setItem("user", JSON.stringify('in'));
                     that.$router.push('/')
                 })
                 .catch(function (error) {
@@ -111,31 +113,7 @@
                 });
             },
 
-            getCookie(cname) {
-                let name = cname + "=";
-                let ca = document.cookie.split(";");
-                for (let i = 0; i < ca.length; i++) {
-                    let c = ca[i].trim();
-                    if (c.indexOf(name) == 0) {
-                        return c.substring(name.length, c.length);
-                    }
-                }
-            },
-
-            RemoveCookie(cookieName) {
-                let cookies = document.cookie.split(";");
-                for (let i = 0; i < cookies.length; i++) {
-                    if (cookies[i].indexOf(" ") == 0) {
-                        cookies[i] = cookies[i].substring(1);
-                    }
-                    if (cookies[i].indexOf(cookieName) == 0) {
-                        let exp = new Date();
-                        exp.setTime(exp.getTime() - 60 * 1000);
-                        document.cookie = cookies[i] + ";expires=" + exp.toUTCString();
-                        break;
-                    }
-                }
-            }
+           
           },
       })
   </script>

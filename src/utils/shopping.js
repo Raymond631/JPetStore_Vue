@@ -13,7 +13,7 @@ var xiaomi = {
         J_cartListGoods.style.display = 'block';
         this.ajaxFun();
     },
-
+  
     // 数据请求
     ajaxFun() {
         //TODO 前端json解析标准格式
