@@ -30,9 +30,6 @@
                     <em></em>
                     购物车
                 </router-link>
-                <!-- <a href="/jpetstore/MyCart.html">
-                   
-                </a> -->
             </div>
             <!-- 登录注册 -->
             <div class="topbar-info" id="notLogin" v-if="!user">
@@ -43,7 +40,7 @@
             <div class="topbar-info" id="logined"  v-if="user">
                 <a @click="logout">退出登录</a>
                 <span class="sep">|</span>
-                <a href="/jpetstore/MyOrder.html">我的订单</a>
+                <router-link to="/MyOrder">我的订单</router-link>
             </div>
         </div>
     </div>
@@ -85,6 +82,7 @@
                     <input v-model="searchContent" class="search-text" id="search" name="keyword" style="border-color: #ff6700" type="text" @input="getTips"/>
                     <input class="search-btn" id="search_btn" style="border-color: #ff6700" type="submit" @click="search" value=""/>
                 </div>
+
                 <div class="keyword-list" id="J_keywordList" style="font: 10px 'Microsoft YaHei'">
                     <ul class="result-list" id="tips">
                         <li v-for="tip in tips" :key="tip"><a @click="select(tip)">{{ tip }}</a></li>
@@ -95,7 +93,7 @@
     </div>
 </header>
 </template>
-  
+
 <script>
     import axios from "axios"
 
@@ -105,6 +103,7 @@
 				searchContent:'',
                 tips:[],
                 user:false
+
 			}
 		},
         mounted: function () {

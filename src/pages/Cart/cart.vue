@@ -44,7 +44,7 @@
                     <el-input-number v-model="cart.quantity" :min="1" @change="changeNumber(cart)" size="mx-4"  />
 					</div>						
                     <div class="col col-total">{{cart.total_cost}}</div>
-					<div class="col col-action" @click="deletePet(cart)">×</div>
+					<div class="col col-action" @click="deleteCart(cart)">×</div>
 				</div>
             </div>
             <div class="cart-bar myclear cart-bar-fixed">
@@ -63,7 +63,7 @@
                                 元
 							</span>
                     <a class="btn btn-disabled" v-if="totalCost==0">去结算</a>
-                    <a class="btn" v-else>去结算</a>
+                    <a class="btn" v-else @click="comfirmCart">去结算</a>
                 </div>
                 <div class="no-select-tip" id="J_noSelectTip" v-if="totalCost==0">
                     请勾选需要结算的商品
@@ -81,7 +81,6 @@
     import { defineComponent } from "vue"
     import { Decimal } from 'decimal.js'
     import axios from "axios"
-import { ElStep } from "element-plus"
 
     export default defineComponent({
         name: "cart",
@@ -94,7 +93,7 @@ import { ElStep } from "element-plus"
             }
         },
         mounted: function () {
-          this.ready()
+            this.ready()
         },
         methods: {
             ready(){
@@ -122,13 +121,26 @@ import { ElStep } from "element-plus"
             changeNumber(cart){
                 cart.total_cost = new Decimal(cart.itemPrice).mul(new Decimal(cart.quantity))
             },
-            deletePet(cart){
+            //删除
+            deleteCart(cart){
                 let that = this
-                that.carts.splice(that.carts.indexOf(cart),1);
-                if(that.checked.includes(cart.cartItemId)){
-                    that.checked.splice(that.checked.indexOf(cart.cartItemId),1);
-                    that.totalCost =new Decimal(that.totalCost).sub(new Decimal(cart.total_cost)) 
-                }
+                var config = {
+                    method: 'delete',
+                    url: "http://localhost:8080/jpetstore/cart/" + cart.cartItemId,
+                    headers: {}
+                };
+
+                axios(config)
+                .then(function (response) {
+                    that.carts.splice(that.carts.indexOf(cart),1);
+                    if(that.checked.includes(cart.cartItemId)){
+                        that.checked.splice(that.checked.indexOf(cart.cartItemId),1);
+                        that.totalCost =new Decimal(that.totalCost).sub(new Decimal(cart.total_cost)) 
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                }); 
             },
             selectAll(){
                 let that = this;
@@ -146,7 +158,7 @@ import { ElStep } from "element-plus"
                 if(that.checked.length === that.carts.length) {
                     that.checkAll = true                 
                 }
-            },
+            }, 
             select(id,cart){
                 let that  = this;
                 //取消选择
@@ -156,9 +168,22 @@ import { ElStep } from "element-plus"
                 }
                 else{
                     that.checked.push(id)
-                    console.log(that.checked);
                     that.totalCost =new Decimal(that.totalCost).add(new Decimal(cart.total_cost)) 
                 }
+            },
+            comfirmCart(){
+                let that = this;
+                that.checked.forEach(function(orderId) {
+                    let orders = [];
+                    for(let i=0;i<that.carts.length;i++){
+                        if(that.carts[i].cartItemId===orderId){
+                            orders.push(that.carts[i]);
+                            that.deleteCart(that.carts[i])
+                        }
+                    }
+                sessionStorage.setItem("orders", JSON.stringify(orders));
+                that.$router.push('/OrderSubmit')
+                })
             }
         },
     })

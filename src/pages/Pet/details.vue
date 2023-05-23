@@ -65,7 +65,7 @@
                             <a class="add" href="javascript:num_up();">+</a>
                             <a class="reduce" href="javascript:num_down();">-</a> -->
                         </div>
-                        <a class="addcar" href="javascript:addToCart();" id="addToCart">加入购物车</a>
+                        <a class="addcar" @click="addToCart" id="addToCart">加入购物车</a>
                         <span id="msg"></span>
                     </div>
                 </div>
@@ -101,33 +101,21 @@
                 //购买数量
                 number: 1,
                 max_Number: 16,
-				productId:'1',
-                category:'狗狗',
-                productNameChinese:'金毛',
-                productNameEnglish:'Golden Retriever',
-                productCharacter:'活泼、忠诚、憨厚、友善',
-                productAncestry:'苏格兰',
-                productDisease:'髋关节发育不良',
-                productLife:'10-15年',
-                productIntroduce:'金毛巡回猎犬（Golden Retriever），原产于苏格兰，祖先有雪达犬血统，因有较强的游泳能力，并能把猎物从水中叼回给主人，故最初用作狩猎及巡回被枪猎射落的水鸟，AKC分类属于运动犬组。',
-                productImage:'/jpetstore/image/pet/1.jpg',
-                price:8807.95,
+				productId:0,
+                itemId:0,
+                category:'',
+                productNameChinese:'',
+                productNameEnglish:'',
+                productCharacter:'',
+                productAncestry:'',
+                productDisease:'',
+                productLife:'',
+                productIntroduce:'',
+                productImage:'',
+                price:0,
                 totalPrice:8807.95,
-                name:'成年雄性',
-                petItemList:[
-                    {
-                        "itemId":1,
-                        "itemSpecification":"成年雄性",
-                        "itemPrice":8807.95,
-                        "itemStock":16
-                    },
-                    {
-                        "itemId":2,
-                        "itemSpecification":"幼年雄性",
-                        "itemPrice":9807.45,
-                        "itemStock":0
-                    }
-                ]
+                name:'',
+                petItemList:[]
 			}
 		},
 		components: {navigationBar},
@@ -146,6 +134,7 @@
 
                 axios(config)
                 .then(function (response) {
+                    console.log(response.data.data)
                     that.productId = response.data.data.productId;
                     that.category = response.data.data.category; 
                     that.productAncestry = response.data.data.productAncestry;
@@ -158,6 +147,8 @@
                     that.productIntroduce = response.data.data.productIntroduce;
                     that.petItemList = response.data.data.petItemList;
                     that.price = response.data.data.petItemList[0].itemPrice;
+                    that.totalPrice = response.data.data.petItemList[0].itemPrice;
+                    that.itemId = response.data.data.petItemList[0].itemId;
                     that.name = response.data.data.petItemList[0].itemSpecification;
                     that.max_Number = response.data.data.petItemList[0].itemStock;
                 })
@@ -175,12 +166,38 @@
                 that.number = 1;
                 that.name = pet.itemSpecification;
                 that.price = pet.itemPrice;
-                that.totalPrice = pet.itemPrice
+                that.totalPrice = pet.itemPrice;
+                that.itemId = pet.itemId
             },
             //改变购买数量
             changeNumber(){
                 let that = this;
                 that.totalPrice = new Decimal(that.number).mul(new Decimal(that.price))
+            },
+            //加入购物车
+            addToCart(){
+                let that = this;
+                let data = {
+                    productId:that.productId,
+                    itemId: that.itemId,
+                    quantity: that.number
+                };
+                var config = {
+                    method: 'post',
+                    url: "http://localhost:8080/jpetstore/cart",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    data: data
+                };
+
+                axios(config)
+                .then(function (response) {
+                    alert("加入购物车成功")
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             }
 		},
 	})
