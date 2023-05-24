@@ -66,6 +66,7 @@
     </template>
 <script>
       import { defineComponent } from "vue"
+      import axios from "axios"
       
       export default defineComponent({
           name: "register",
@@ -77,6 +78,9 @@
                 verificationCode:'',
                 imgSrc:'',
               }
+          },
+          mounted: function () {
+            this.newVertification()
           },
           methods: {
             newVertification(){
