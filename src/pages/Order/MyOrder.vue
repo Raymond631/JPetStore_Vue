@@ -12,7 +12,7 @@
         <p>点击订单编号查看详情</p>
       </div>
       <div class="topbar-info" id="J_userInfo">
-        <router-link to="/MyCart" class="link link-order">我的购物车</router-link>
+        <router-link to="/cart" class="link link-order">我的购物车</router-link>
       </div>
     </div>
   </header>
@@ -50,7 +50,7 @@ export default defineComponent({
   setup(){
     const orders = ref([]);
     const fetchOrders = () => {
-      axios.get("/jpetstore/orders")
+      axios.get("http://localhost:8080/jpetstore/orders")
           .then((res) =>{
             orders.value = res.data;
           })
@@ -61,7 +61,7 @@ export default defineComponent({
 
     const confirmReceipt = (orderId) =>{
       axios
-          .put(`/jpetstore/orders/${orderId}`)
+          .put(`http://localhost:8080/jpetstore/orders/${orderId}`)
           .then(res=>{
             if (res.data.code === 200){
               const order = orders.value.find((o) => o.orderId === orderId)
