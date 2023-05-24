@@ -105,7 +105,6 @@
                 };
                 axios(config)
                 .then(function (response) {
-                    console.log(response)
                     that.carts = response.data.data
                     for(let i=0;i<that.carts.length;i++){
                         that.carts[i].total_cost=new Decimal(that.carts[i].itemPrice).mul(new Decimal(that.carts[i].quantity));

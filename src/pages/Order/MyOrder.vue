@@ -52,11 +52,13 @@ export default defineComponent({
     const fetchOrders = () => {
       axios.get("http://localhost:8080/jpetstore/orders")
           .then((res) =>{
-            orders.value = res.data;
+            orders.value = res.data.data;
           })
           .catch(err => {
             console.error(err);
           })
+          console.log('123')
+          console.log(orders)
     }
 
     const confirmReceipt = (orderId) =>{
