@@ -2,19 +2,16 @@
   <div class="order_head">
     <div class="head_background">
       <div class="head_box">
-        <router-link to="/jpetstore"></router-link>
         <a class="head_left_a" href="/jpetstore">
           <img
               alt=""
               class="head_left_p"
-              src="../../assets/image/login/placeholder.png"
+              src="/jpetstore/image/header/logo.png"
           />
         </a>
         <h1 class="head_h1">确认订单</h1>
         <div class="head_right">
-          <router-link to="/Myorder" class="head_right_in"
-          >我的订单</router-link
-          >
+          <router-link to="/MyOrder" class="head_right_in">我的订单</router-link>
         </div>
       </div>
     </div>
@@ -24,118 +21,101 @@
       <div class="order_line">
         <div class="order_lien_in order_in">
           <h3 class="order_title">收货地址</h3>
-          <div class="order-address">
-            <template v-if="!isEditMode">
-              <p>{{ address.receiverName }}</p>
-              <p>{{ address.receiverPhone }}</p>
-              <p>{{ address.receiverAddress }}</p>
-              <p>
-                <button class="order_lien_in" @click="toggleEditMode">
-                  编辑
-                </button>
-              </p>
-            </template>
-            <template v-else>
-              <input
-                  v-model="editedAddress.receiverName"
-                  type="text"
-                  placeholder="姓名"
-              />
-              <input
-                  v-model="editedAddress.receiverPhone"
-                  type="tel"
-                  placeholder="联系方式"
-              />
-              <input
-                  v-model="editedAddress.receiverAddress"
-                  type="text"
-                  placeholder="收货地址"
-              />
-              <p>
-                <button class="order-btn" @click="saveAddress">保存</button>
-                <button class="order-btn" @click="toggleEditMode">取消</button>
-              </p>
-            </template>
-          </div>
         </div>
-
-        <div class="order_line order_line_bordtr">
-          <div class="order_lien_in">
-            <h3 class="order_title">支付方式</h3>
-          </div>
-          <div class="order-payment">
-            <p
-                v-for="(option, index) in paymentOptions"
-                :key="index"
-                :class="{ active: payIndex === index }"
-                @click="selectPayment(index)"
-            >
-              {{ option }}
-            </p>
-          </div>
-        </div>
-        <div class="order_line order_line_bordtr">
-          <div class="order_lien_in">
-            <h3 class="order_title">宠物清单</h3>
-          </div>
-          <div class="order-cart">
-            <template v-for="item in cartList" :key="item.id">
-              <div class="order-item">
-                <p>{{ item.name }}</p>
-                <p>{{ item.price }}元</p>
-              </div>
-            </template>
-          </div>
-          <div class="order_lien_in">
-            <router-link to="/cart"
-            ><span class="order_span_rigth" style="color: #ff6700"
-            >返回购物车→</span
-            ></router-link
-            >
-          </div>
-          <div class="order_lien_in"></div>
-        </div>
-
-        <div id="order_item"></div>
-
-        <div class="order_line order_line_bordtr">
-          <div class="order_lien_in">
-            <p class="order_price_11">
-              <br />应付总额:<span class="order-cost">{{ cost }}</span
-            >元
-            </p>
-          </div>
-        </div>
-        <div class="pay">
-          <button
-              class="order-btn"
-              :style="{ background: btnBackground }"
-              @click="placeOrder"
+        <div class="order_lien_in">
+          <a
+              class="order_lien_in"
+              href="javascript:void(0)"
+              @click="toggleEditMode"
           >
-            {{ btnText }}
-          </button>
+            <span v-if="!isEditMode">编辑地址</span>
+            <span v-else>取消编辑</span>
+          </a>
         </div>
+        <div class="order_lien_in"></div>
+      </div>
+      <div class="order_box" id="adr_list">
+        <a class="order_box_in" id="address_box" v-if="!isEditMode">
+          <p class="order_box_p"><label for="receiver_name">姓名</label><input style="text-align: center" type="text" id="receiver_name" name="receiver_name" v-model="address.receiverName" :disabled="!isEditMode"></p>
+          <p class="order_box_p"><label for="receiver_tel">联系方式</label><input style="text-align: center" type="tel" id="receiver_tel" name="receiver_tel" v-model="address.receiverPhone" :disabled="!isEditMode"></p>
+          <p class="order_box_p"><label for="receiver_adr">收货地址</label><input style="text-align: center" type="text" id="receiver_adr" name="receiver_adr" v-model="address.receiverAddress" :disabled="!isEditMode"></p>
+
+        </a>
+      </div>
+
+      <div class="order_line order_line_bordtr">
+        <div class="order_lien_in">
+          <h3 class="order_title">支付方式</h3>
+        </div>
+        <p
+            class="order_PStime"
+            v-for="(option, index) in paymentOptions"
+            :key="index"
+            :class="{ selected: index === payIndex }"
+            @click="selectPayment(index)"
+        >
+          {{ option }}
+        </p>
+        <div class="order_lien_in"></div>
+      </div>
+      <div class="order_line order_line_bordtr">
+        <div class="order_lien_in">
+          <h3 class="order_title">宠物清单</h3>
+        </div>
+        <div class="order_lien_in">
+          <a href="/cart">
+            <span class="order_span_rigth" style="color: #ff6700"
+            >返回购物车→</span
+            >
+          </a>
+        </div>
+        <div class="order_lien_in"></div>
+      </div>
+
+      <div id="order_item"></div>
+
+      <div class="order_line order_line_bordtr">
+        <div class="order_lien_in">
+          <p class="order_price_11"><br />应付总额:</p>
+        </div>
+        <div class="order_price1">
+          <p class="order_price_2">
+            <span id="cost" style="font-size: 35px">{{ cost }}</span
+            >元
+          </p>
+        </div>
+      </div>
+      <div class="pay">
+        <a
+            class="pay_a"
+            href="javascript:void(0);"
+            id="order_submit"
+            @click="placeOrder"
+        >
+          结算
+        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { RouterLink,useRouter  } from "vue-router";
 export default defineComponent({
   setup() {
-    const address = {
+    const address = ref({
       receiverName: "",
       receiverPhone: "",
       receiverAddress: "",
-    };
-    const editedAddress = {
+    });
+
+    const editedAddress = ref({
       receiverName: "",
       receiverPhone: "",
       receiverAddress: "",
-    };
+    });
 
     const isEditMode = ref(false);
     const payIndex = ref(0);
@@ -144,7 +124,11 @@ export default defineComponent({
     const btnBackground = ref("");
     const btnText = ref("");
 
+    const router = useRouter();
+
     onMounted(() => {
+      getAddress();
+
       const orders = JSON.parse(sessionStorage.getItem("orders"));
       let totalCost = 0;
 
@@ -152,38 +136,55 @@ export default defineComponent({
         totalCost += orders[i].total_cost;
       }
 
-      cost.value = totalCost; // 将总费用赋值给cost变量
+      cost.value = totalCost;
     });
-    //保存地址
+
+    const getAddress = () => {
+      axios
+          .get("http://localhost:8080/jpetstore/user/info")
+          .then((res) => {
+            const resData = res.data;
+            console.log(resData.data)
+            if (resData.code === 200) {
+              address.value = resData.data;
+            } else {
+              console.log("获取地址失败:", resData.message);
+            }
+          })
+          .catch((error) => {
+            console.log("获取地址请求异常:", error);
+          });
+    };
+
     const saveAddress = () => {
       if (
-          editedAddress.receiverName &&
-          editedAddress.receiverPhone &&
-          editedAddress.receiverAddress
+          editedAddress.value.receiverName &&
+          editedAddress.value.receiverPhone &&
+          editedAddress.value.receiverAddress
       ) {
         const data = {
-          receiverName: editedAddress.receiverName,
-          receiverPhone: editedAddress.receiverPhone,
-          receiverAddress: editedAddress.receiverAddress,
+          receiverName: editedAddress.value.receiverName,
+          receiverPhone: editedAddress.value.receiverPhone,
+          receiverAddress: editedAddress.value.receiverAddress,
         };
         axios
             .put("http://localhost:8080/jpetstore/user/info", data)
             .then((res) => {
               const resData = res.data;
               if (resData.code === 200) {
-                address.receiverName = editedAddress.receiverName;
-                address.receiverPhone = editedAddress.receiverPhone;
-                address.receiverAddress = editedAddress.receiverAddress;
+                address.value.receiverName = editedAddress.value.receiverName;
+                address.value.receiverPhone = editedAddress.value.receiverPhone;
+                address.value.receiverAddress =
+                    editedAddress.value.receiverAddress;
                 toggleEditMode();
               } else {
-                console.log("保存地址失败： ", resData.message);
+                console.log("保存地址失败:", resData.message);
               }
             })
-            .catch((err) => {
-              console.log("保存地址请求异常: ", err);
+            .catch((error) => {
+              console.log("保存地址请求异常:", error);
             });
       } else {
-        //地址信息不完整
         console.log("地址信息不完整");
         showErrorMsg();
       }
@@ -198,26 +199,29 @@ export default defineComponent({
         btnBackground.value = "#ff6700";
       }, 2000);
     };
-    //切换编辑模式
+
     const toggleEditMode = () => {
       isEditMode.value = !isEditMode.value;
       if (isEditMode.value) {
-        editedAddress.receiverName = address.receiverName;
-        editedAddress.receiverPhone = address.receiverPhone;
-        editedAddress.receiverAddress = address.receiverAddress;
+        editedAddress.value.receiverName = address.value.receiverName;
+        editedAddress.value.receiverPhone = address.value.receiverPhone;
+        editedAddress.value.receiverAddress = address.value.receiverAddress;
+      } else {
+        editedAddress.value.receiverName = "";
+        editedAddress.value.receiverPhone = "";
+        editedAddress.value.receiverAddress = "";
       }
     };
 
-    //支付方式
     const paymentOptions = ["微信支付", "支付宝", "货到付款"];
+
     const selectPayment = (index) => {
       payIndex.value = index;
     };
-    const router = useRouter();
-    //提交订单
+
     const placeOrder = () => {
       const data = {
-        address: address,
+        address: address.value,
         payment: paymentOptions[payIndex.value],
         cart: cartList.value,
         totalCost: cost.value,
@@ -227,19 +231,17 @@ export default defineComponent({
           .then((res) => {
             const resData = res.data;
             if (resData.code === 200) {
-              // 处理下单成功的情况
               console.log("下单成功:", resData.message);
-              router.push("/MyOrder"); // 跳转到我的订单页面
+              router.push("/MyOrder");
             } else {
-              // 处理下单失败的情况
               console.log("下单失败:", resData.message);
             }
           })
           .catch((error) => {
-            // 处理请求异常
             console.log("下单请求异常:", error);
           });
     };
+
     return {
       address,
       editedAddress,
@@ -254,11 +256,12 @@ export default defineComponent({
       paymentOptions,
       selectPayment,
       placeOrder,
-      router,
+      RouterLink,
     };
   },
 });
 </script>
+
 
 <style scoped>
 @import "../../assets/css/orderSubmit.css";
