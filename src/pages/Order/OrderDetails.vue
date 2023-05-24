@@ -112,7 +112,7 @@ export default defineComponent({
     })
 
     const getDetails = () =>{
-      axios.get(`/jpetstore/orders/${orderId}`)
+      axios.get(`http://localhost:8080/jpetstore/orders/${orderId}`)
           .then(res =>{
             let data = res.data;
             order.value = data;
