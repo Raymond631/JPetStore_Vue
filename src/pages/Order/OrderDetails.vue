@@ -2,7 +2,7 @@
   <div class="order_head">
     <div class="head_background">
       <div class="head_box">
-        <a href="/jpetstore" class="head_left_a"><img src="/jpetstore/image/header/logo.png" alt="" class="head_left_p"></a>
+        <a href="/jpetstore" class="head_left_a"><img src="../../assets/image/login/placeholder.png" alt="" class="head_left_p"></a>
         <h1 class="head_h1">订单详情</h1>
         <div class="head_right">
           <router-link to="/MyOrder" class="head_right_in">返回订单列表</router-link>
@@ -18,7 +18,7 @@
           <h3 class="order_title">订单编号</h3>
         </div>
         <div class="order_lien_in">
-          <p class="order_PStime" style="font: 18px 'Microsoft YaHei'">{{ order.orderId }}</p>
+          <p class="order_PStime" style="font: 18px 'Microsoft YaHei'">{{ orderId }}</p>
         </div>
       </div>
       <!-- 下单时间-->
@@ -55,10 +55,10 @@
         </div>
         <div class="order_lien_in"></div>
       </div>
-      <div class="address_box">
-        <p class="receiver_name">{{ order.receiverName }}</p>
-        <p class="receiver_phone">{{ order.receiverPhone }}</p>
-        <p class="receiver_address">{{ order.receiverAddress }}</p>
+      <div class="address_box" style="margin-left: 110px">
+        <p class="order_box_p"><label for="receiver_name">姓名</label><input style="text-align: center" type="text" id="receiver_name" name="receiver_name" v-model="order.receiverName" :disabled="true"></p>
+        <p class="order_box_p"><label for="receiver_tel">联系方式</label><input style="text-align: center" type="tel" id="receiver_tel" name="receiver_tel" v-model="order.receiverPhone" :disabled="true"></p>
+        <p class="order_box_p"><label for="receiver_adr">收货地址</label><input style="text-align: center" type="text" id="receiver_adr" name="receiver_adr" v-model="order.receiverAddress" :disabled="true"></p>
       </div>
       <!--商品清单-->
       <div class="order_line order_line_bordtr">
@@ -90,7 +90,7 @@
       </div>
       <!-- 返回订单列表-->
       <div class="pay">
-        <a href="/MyOrder" class="pay_a" id="order_submit">返回订单列表</a>
+        <router-link to="/MyOrder" class="pay_a" id="order_submit">返回订单列表</router-link>
       </div>
     </div>
   </div>
@@ -102,41 +102,32 @@ import axios from "axios"
 import { RouterLink } from "vue-router";
 
 export default defineComponent({
-  setup(){
-
-    const orderId = getQueryVariable('orderId');
-    //存储订单详情数据
+  props: ['orderId'],
+  setup(props){
+    const orderId = ref(props.orderId);
     const order = ref({});
+
+    //存储订单详情数据
     onMounted(()=>{
       getDetails();
     })
 
     const getDetails = () =>{
-      axios.get(`http://localhost:8080/jpetstore/orders/${orderId}`)
+      console.log(orderId.value)
+      axios.get(`http://localhost:8080/jpetstore/orders/${orderId.value}`)
           .then(res =>{
-            let data = res.data;
-            order.value = data;
+            console.log(res)
+            order.value = res.data.data;
           })
           .catch(err =>{
             console.error(err)
           })
     }
 
-    // 获取url参数
-    const getQueryVariable = (variable) => {
-      const query = window.location.search.substring(1);
-      const vars = query.split('&');
-      for (let i = 0; i < vars.length; i++) {
-        const pair = vars[i].split('=');
-        if (pair[0] === variable) {
-          return pair[1];
-        }
-      }
-      return false;
-    };
+
     return{
       order,
-      RouterLink,
+      RouterLink
     }
   }
 })
