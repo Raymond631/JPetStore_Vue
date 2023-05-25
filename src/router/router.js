@@ -45,6 +45,7 @@ const router = createRouter({
         name: "OrderDetails",
         component: () =>
             import ('../pages/Order/OrderDetails.vue'),
+            props:(route)=>({ orderId: route.query.orderId})
       },
       {
         path:'/OrderSubmit',

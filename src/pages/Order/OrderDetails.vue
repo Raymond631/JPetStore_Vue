@@ -2,7 +2,7 @@
   <div class="order_head">
     <div class="head_background">
       <div class="head_box">
-        <a href="/jpetstore" class="head_left_a"><img src="/jpetstore/image/header/logo.png" alt="" class="head_left_p"></a>
+        <a href="/jpetstore" class="head_left_a"><img src="../../assets/image/login/placeholder.png" alt="" class="head_left_p"></a>
         <h1 class="head_h1">订单详情</h1>
         <div class="head_right">
           <router-link to="/MyOrder" class="head_right_in">返回订单列表</router-link>
@@ -113,9 +113,10 @@ export default defineComponent({
     })
 
     const getDetails = () =>{
+      console.log(orderId.value)
       axios.get(`http://localhost:8080/jpetstore/orders/${orderId.value}`)
           .then(res =>{
-            console.log(res.data)
+            console.log(res)
             order.value = res.data.data;
           })
           .catch(err =>{

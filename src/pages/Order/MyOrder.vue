@@ -65,6 +65,7 @@ export default defineComponent({
   setup() {
     const orders = ref([]);
     const fetchOrders = () => {
+
       axios
           .get("http://localhost:8080/jpetstore/orders")
           .then((res) => {
@@ -73,6 +74,7 @@ export default defineComponent({
           })
           .catch((err) => {
             console.error(err);
+
           });
     };
 
