@@ -6,7 +6,7 @@
           <img
             alt=""
             class="head_left_p"
-            src="/jpetstore/image/header/logo.png"
+            src="../../assets/image/login/placeholder.png"
           />
         </a>
         <h1 class="head_h1">确认订单</h1>
@@ -114,7 +114,7 @@
               <img
                 class="order_price_tv"
                 style="height: 40px; margin-right: 100px"
-                :src="`/jpetstore/image/look/${item.productImage}`"
+                :src="item.productImage"
                 alt=""
               />
             </div>
@@ -183,8 +183,10 @@ export default defineComponent({
 
       const orders = JSON.parse(sessionStorage.getItem("orders"));
       if (Array.isArray(orders)) {
+
         cartList.value = orders.map((order) => {
           const {
+            itemId,
             productImage,
             productNameChinese,
             itemSpecification,
@@ -192,6 +194,7 @@ export default defineComponent({
             quantity,
           } = order;
           return {
+            itemId,
             productImage,
             productNameChinese,
             itemSpecification,
@@ -200,8 +203,6 @@ export default defineComponent({
           };
         });
       }
-      console.log("cartList", cartList.value);
-      console.log("llll", orders);
       let totalCost = 0;
 
       for (let i = 0; i < orders.length; i++) {
@@ -243,6 +244,7 @@ export default defineComponent({
           .then((res) => {
             const resData = res.data;
             if (resData.code === 200) {
+              alert('保存成功')
               getAddress();
             } else {
               console.log("保存地址失败:", resData.message);

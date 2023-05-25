@@ -28,7 +28,7 @@
                 <div id="wapper">
                     <div class="list-body myclear" data-checked = "false" v-for="pet in pets" :key="pet.productId" @click="getPetDetails(pet)">                      
 						    <div class="col col-name" style="padding-left: 100px;width: 250px">{{pet.productId}}</div>
-						    <div class="col col-price" style="width: 200px"><img src="/jpetstore/image/look/{{ pet.productImage }}" style="height: 80px"></div>
+						    <div class="col col-price" style="width: 200px"><img :src="pet.productImage " style="height: 80px"></div>
 						    <div class="col col-total" >{{ pet.productNameChinese }}</div>
 						    <div class="col col-price" style="width: 450px">{{ pet.productNameEnglish }}</div>
 					</div>
@@ -68,6 +68,9 @@
                 .then(function (response) {
                     console.log(response)
                     that.pets = response.data.data
+                    that.pets.forEach(function(pet) {
+                        pet.productImage = `http://localhost:8080/jpetstore/image/look/${ pet.productImage}`
+                    })
                 })
                 .catch(function (error) {
                     console.log(error);

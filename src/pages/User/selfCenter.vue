@@ -64,7 +64,6 @@
 </template>
 <script>
       import { defineComponent } from "vue"
-      import '../../utils/SelfCenter.js'
       
       export default defineComponent({
           name: "selfCenter",

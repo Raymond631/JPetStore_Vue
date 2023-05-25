@@ -65,6 +65,12 @@ const router = createRouter({
         component: () =>
             import ('../pages/Cart/cart.vue'),   
       },
+      { 
+        path:'/selfCenter', 
+        name: "selfCenter",
+        component: () =>
+            import ('../pages/User/selfCenter.vue'),   
+      },
     ],
 })
 export default router;

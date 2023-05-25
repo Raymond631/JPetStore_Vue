@@ -80,7 +80,7 @@
             <div class="myclear header-search">
                 <div >
                     <input v-model="searchContent" class="search-text" id="search" name="keyword" style="border-color: #ff6700" type="text" @input="getTips"/>
-                    <input class="search-btn" id="search_btn" style="border-color: #ff6700" type="submit" @click="search" value=""/>
+                    <input class="search-btn" id="search_btn" style="border-color: #ff6700" type="submit" @click="search" value=" "/>
                 </div>
 
                 <div class="keyword-list" id="J_keywordList" style="font: 10px 'Microsoft YaHei'">

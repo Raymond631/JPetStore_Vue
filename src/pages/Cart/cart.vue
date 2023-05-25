@@ -37,7 +37,7 @@
                 <div class="list-body myclear" data-checked = "false" v-for="cart in carts" :key="cart.productId">
                     <div class="col col-check">
                     <input type="checkbox" v-model="checked" :value="cart.cartItemId" @click="select(cart.cartItemId,cart)"/></div>
-					<div class="col col-img"><a href="javascript:;"><img src="/jpetstore/image/look/{{ cart.productImage }}" alt=""></a></div>
+					<div class="col col-img"><a href="javascript:;"><img :src="cart.productImage" alt=""></a></div>
 					<div class="col col-name">{{cart.productNameChinese}}/{{cart.itemSpecification}}</div>
 					<div class="col col-price">{{cart.itemPrice}}</div>
 					<div class="col col-num">
@@ -109,6 +109,8 @@
                     for(let i=0;i<that.carts.length;i++){
                         that.carts[i].total_cost=new Decimal(that.carts[i].itemPrice).mul(new Decimal(that.carts[i].quantity));
                         //TODO这个地方留给修改图片路径
+                        that.carts[i].productImage = `http://localhost:8080/jpetstore/image/look/${that.carts[i].productImage}`;
+                        console.log( that.carts[i].productImage)
                     }
                     console.log(that.carts)
                 })

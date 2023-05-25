@@ -34,7 +34,7 @@
                     </dd>
                 </dl>
                 <div class="entry_tit_rig">
-                    <img id="petImage" alt="暂无图片" src="/jpetstore/image/img.png"/>
+                    <img id="petImage" alt="暂无图片" :src="productImage"/>
                 </div>
                 <div style="font: 16px/20px 'Microsoft YaHei'">
                     <span>简  介：</span>
@@ -143,7 +143,7 @@
                     that.productNameEnglish = response.data.data.productNameEnglish;
                     that.productLife = response.data.data.productLife;
                     that.productCharacter = response.data.data.productCharacter;
-                    that.productImage = response.data.data.productImage;
+                    that.productImage = `http://localhost:8080/jpetstore/image/look/${response.data.data.productImage}`;
                     that.productIntroduce = response.data.data.productIntroduce;
                     that.petItemList = response.data.data.petItemList;
                     that.price = response.data.data.petItemList[0].itemPrice;

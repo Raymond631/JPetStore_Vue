@@ -151,7 +151,7 @@
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="dogList">
                             <li class="brick-item brick-item-m" v-for="dog in dogs" :key="dog.productId" @click="getPetDetails(dog)"> 
-                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{dog.productImage}}"></div>
+                                <div class="figure-img"><img :src="dog.productImage"></div>
                                 <h3 class="title">{{dog.productNameChinese}}</h3>
                                 <p class="desc">{{dog.productNameEnglish}}</p>
                             </li>
@@ -171,15 +171,16 @@
                 <div class="box-content myclear">
                     <div class="left">
                         <ul>
-                            <li class="brick-item"><a href="javascript:;"><img
-                                    alt=""
-                                    src="https://cdn.pixabay.com/photo/2020/03/23/08/45/cat-4959941__340.jpg"></a></li>
+                            <li class="brick-item"><a href="javascript:;">
+                            <img
+                                alt=""
+                                src="https://cdn.pixabay.com/photo/2020/03/23/08/45/cat-4959941__340.jpg"></a></li>
                         </ul>
                     </div>
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="catList">
                             <li class="brick-item brick-item-m" v-for="cat in cats" :key="cat.productId" @click="getPetDetails(cat)"> 
-                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{cat.productImage}}"></div>
+                                <div class="figure-img"><img :src="cat.productImage"></div>
                                 <h3 class="title">{{cat.productNameChinese}}</h3>
                                 <p class="desc">{{cat.productNameEnglish}}</p>
                             </li>
@@ -208,7 +209,7 @@
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="birdList">
                             <li class="brick-item brick-item-m" v-for="bird in birds" :key="bird.productId" @click="getPetDetails(bird)"> 
-                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{bird.productImage}}"></div>
+                                <div class="figure-img"><img :src="bird.productImage"></div>
                                 <h3 class="title">{{bird.productNameChinese}}</h3>
                                 <p class="desc">{{bird.productNameEnglish}}</p>
                             </li>
@@ -237,7 +238,7 @@
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="fishList">
                             <li class="brick-item brick-item-m" v-for="fish in fishes" :key="fish.productId" @click="getPetDetails(fish)"> 
-                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{fish.productImage}}"></div>
+                                <div class="figure-img"><img :src="fish.productImage"></div>
                                 <h3 class="title">{{fish.productNameChinese}}</h3>
                                 <p class="desc">{{fish.productNameEnglish}}</p>
                             </li>
@@ -266,7 +267,7 @@
                     <div class="right" style="display: block;">
                         <ul class="myclear" id="reptileList">
                             <li class="brick-item brick-item-m" v-for="reptile in reptiles" :key="reptile.productId" @click="getPetDetails(reptile)"> 
-                                <div class="figure-img"><img alt="" src="/jpetstore/image/look/${{reptile.productImage}}"></div>
+                                <div class="figure-img"><img :src="reptile.productImage"></div>
                                 <h3 class="title">{{reptile.productNameChinese}}</h3>
                                 <p class="desc">{{reptile.productNameEnglish}}</p>
                             </li>
@@ -283,8 +284,8 @@
     <!-- 固定 -->
     <div class="div_home">
         <div class="div_home" id="userButton">
-            <a class="home2" href="/jpetstore/SelfCenter.html"><span>个人中心</span></a>
-            <a class="home5" href="/jpetstore/MyCart.html"><span>购物车</span></a>
+            <router-link class="home2" to="/selfCenter"><span>个人中心</span></router-link>
+            <router-link class="home5" to="/cart"><span>购物车</span></router-link>
             <a class="img_yincang" href="/jpetstore"><span>回到顶部</span></a>
         </div>
     </div>
@@ -321,11 +322,27 @@
                 };
                 axios(config)
                 .then(function (response) {
+                    console.log(response)
                     that.dogs = response.data.data.dog;
+                    that.dogs.forEach(function(pet) {
+                        pet.productImage = `http://localhost:8080/jpetstore/image/look/${ pet.productImage}`
+                    })
                     that.cats = response.data.data.cat;
+                    that.cats.forEach(function(pet) {
+                        pet.productImage = `http://localhost:8080/jpetstore/image/look/${ pet.productImage}`
+                    })
                     that.birds = response.data.data.bird;
+                    that.birds.forEach(function(pet) {
+                        pet.productImage = `http://localhost:8080/jpetstore/image/look/${ pet.productImage}`
+                    })
                     that.fishes = response.data.data.fish;
+                    that.fishes.forEach(function(pet) {
+                        pet.productImage = `http://localhost:8080/jpetstore/image/look/${ pet.productImage}`
+                    })
                     that.reptiles = response.data.data.reptile;
+                    that.reptiles.forEach(function(pet) {
+                        pet.productImage = `http://localhost:8080/jpetstore/image/look/${ pet.productImage}`
+                    })
                 })
                 .catch(function (error) {
                     console.log(error);

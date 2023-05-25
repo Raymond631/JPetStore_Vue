@@ -55,7 +55,7 @@
         </div>
         <div class="order_lien_in"></div>
       </div>
-      <div class="address_box" style="margin-left: 110px">
+      <div class="address_box" style="margin-left: -700px">
         <p class="order_box_p"><label for="receiver_name">姓名</label><input style="text-align: center" type="text" id="receiver_name" name="receiver_name" v-model="order.receiverName" :disabled="true"></p>
         <p class="order_box_p"><label for="receiver_tel">联系方式</label><input style="text-align: center" type="tel" id="receiver_tel" name="receiver_tel" v-model="order.receiverPhone" :disabled="true"></p>
         <p class="order_box_p"><label for="receiver_adr">收货地址</label><input style="text-align: center" type="text" id="receiver_adr" name="receiver_adr" v-model="order.receiverAddress" :disabled="true"></p>
@@ -72,10 +72,16 @@
         <p class="order_price" style="margin-top: 20px;width: 200px;margin-left: 100px">金额</p>
       </div>
       <div class="order_items">
-        <div class="order_item" v-for="item in order.orderItemDOList" :key="item.itemId">
-          <p class="item_name">{{ item.name }}</p>
-          <p class="item_price">{{ item.price }}</p>
+        <div class="order_line order_line_bordtr" v-for="item in order.orderItemDOList" :key="item.itemId">
+          <div class="order_lien_in">
+            <img class="order_price_tv" style="height: 40px" :src="item.itemImage" alt="">
+            <p class="order_price" style="margin-top: 20px;width: 300px">{{item.productNameChinese}}/{{ item.itemSpecification }}</p>
+          </div>
+          <div class="order_lien_in">
+            <p class="order_price_1" style="margin-top: 20px">{{item.itemPrice}} x {{item.itemQuantity}}</p>
+          </div>
         </div>
+        
       </div>
       <!-- 总金额-->
       <div class="order_line order_line_bordtr">
@@ -113,11 +119,13 @@ export default defineComponent({
     })
 
     const getDetails = () =>{
-      console.log(orderId.value)
       axios.get(`http://localhost:8080/jpetstore/orders/${orderId.value}`)
           .then(res =>{
-            console.log(res)
             order.value = res.data.data;
+            for(let i=0; i< order.value.orderItemDOList.length;i++){
+             order.value.orderItemDOList[i].itemImage = `http://localhost:8080/jpetstore/image/look/${ order.value.orderItemDOList[i].itemImage}`
+            }
+           
           })
           .catch(err =>{
             console.error(err)
