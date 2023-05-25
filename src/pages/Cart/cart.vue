@@ -177,7 +177,7 @@
                     for(let i=0;i<that.carts.length;i++){
                         if(that.carts[i].cartItemId===orderId){
                             orders.push(that.carts[i]);
-                            that.deleteCart(that.carts[i])
+                            // that.deleteCart(that.carts[i])
                         }
                     }
                 sessionStorage.setItem("orders", JSON.stringify(orders));
