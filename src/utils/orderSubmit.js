@@ -38,7 +38,7 @@ function getData() {
                         <p class="order_price" style="margin-top: 20px;width: 300px">${cartList[i].productNameChinese}/${cartList[i].itemSpecification}</p>
                     </div>
                     <div class="order_lien_in">
-                        <p class="order_price_1" style="margin-top: 20px">${cartList[i].itemPrice} x ${cartList[i].quantity}</p>
+                        <p class="order_price_1" style="margin-top: 20px">${cartList[i].itemPrice} x ${cartList[i].f}</p>
                     </div>
                 </div>`;
     }
