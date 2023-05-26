@@ -70,7 +70,7 @@
             <a class="back-shopping J_goShoping" href="/">继续购物</a>
             <span class="cart-total">
               共
-              <i id="J_cartTotalNum">{{  productNumber_all }}</i>
+              <i id="J_cartTotalNum">{{ productNumber_all }}</i>
               件商品，已选择
               <i id="J_selTotalNum">{{ productNumber_select }}</i>
               件
@@ -127,7 +127,7 @@ export default defineComponent({
           that.carts = response.data.data;
           // that.productNumber_all = response.data.data.length
           for (let i = 0; i < that.carts.length; i++) {
-            that.productNumber_all++
+            that.productNumber_all++;
             that.carts[i].total_cost = new Decimal(that.carts[i].itemPrice).mul(
               new Decimal(that.carts[i].quantity)
             );
@@ -144,16 +144,16 @@ export default defineComponent({
     },
     //改变购买数量
     changeNumber(cart) {
-      let that = this
-      let perviousCost = cart.total_cost
+      let that = this;
+      let perviousCost = cart.total_cost;
       cart.total_cost = new Decimal(cart.itemPrice).mul(
         new Decimal(cart.quantity)
       );
-      if (that.checked.includes(cart.cartItemId)) {     
+      if (that.checked.includes(cart.cartItemId)) {
         that.totalCost = new Decimal(that.totalCost).add(
-            new Decimal(cart.total_cost).sub(new Decimal(perviousCost))
-          );
-      }  
+          new Decimal(cart.total_cost).sub(new Decimal(perviousCost))
+        );
+      }
     },
     //删除
     deleteCart(cart) {
@@ -185,7 +185,7 @@ export default defineComponent({
       if (that.checkAll) {
         that.checked = [];
         that.totalCost = 0;
-        that.productNumber_select =0;
+        that.productNumber_select = 0;
       } else {
         that.checked = [];
         that.carts.forEach(function (cart) {
@@ -219,8 +219,8 @@ export default defineComponent({
     },
     comfirmCart() {
       let that = this;
+      let orders = [];
       that.checked.forEach(function (orderId) {
-        let orders = [];
         for (let i = 0; i < that.carts.length; i++) {
           if (that.carts[i].cartItemId === orderId) {
             orders.push(that.carts[i]);

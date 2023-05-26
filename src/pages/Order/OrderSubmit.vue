@@ -161,7 +161,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import axios from "axios";
 import { RouterLink, useRouter } from "vue-router";
-import { Decimal } from "decimal.js";
+// import { Decimal } from "decimal.js";
 export default defineComponent({
   setup() {
     const address = ref({
@@ -176,14 +176,12 @@ export default defineComponent({
     const cartList = ref([]);
     const btnBackground = ref("");
     const btnText = ref("");
-
     const router = useRouter();
 
     onMounted(() => {
       getAddress();
 
       const orders = JSON.parse(sessionStorage.getItem("orders"));
-      console.log(orders);
       if (Array.isArray(orders)) {
         cartList.value = orders.map((order) => {
           const {
@@ -204,12 +202,14 @@ export default defineComponent({
           };
         });
       }
+      console.log(cartList);
       let totalCost = 0;
 
       for (let i = 0; i < orders.length; i++) {
-        totalCost += orders[i].total_cost;
+        totalCost += parseFloat(orders[i].total_cost);
       }
-      cost.value = new Decimal(totalCost);
+      cost.value = totalCost.toFixed(2);
+      // cost.value = new Decimal(totalCost);
     });
 
     const getAddress = () => {
@@ -287,36 +287,36 @@ export default defineComponent({
         address.value.receiverAddress
       ) {
         const data = {
-        receiverName: address.value.receiverName,
-        receiverPhone: address.value.receiverPhone,
-        receiverAddress: address.value.receiverAddress,
-        orderPayment: paymentOptions[payIndex.value],
-        cartList: cartList.value,
-        // totalCost: cost.value,
-      };
-      console.log(JSON.stringify(data));
-      axios
-        .post("http://localhost:8080/jpetstore/order", JSON.stringify(data), {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          const resData = res.data;
-          if (resData.code === 200) {
-            console.log("下单成功:", resData);
-            router.push("/MyOrder");
-          } else {
-            console.log("下单失败:", resData);
-          }
-        })
-        .catch((error) => {
-          console.log("下单请求异常:", error);
-        });
-      }else{
-        alert('收货信息不能为空')
+          receiverName: address.value.receiverName,
+          receiverPhone: address.value.receiverPhone,
+          receiverAddress: address.value.receiverAddress,
+          orderPayment: paymentOptions[payIndex.value],
+          cartList: cartList.value,
+          // totalCost: cost.value,
+        };
+        console.log(JSON.stringify(data));
+        axios
+          .post("http://localhost:8080/jpetstore/order", JSON.stringify(data), {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((res) => {
+            const resData = res.data;
+            if (resData.code === 200) {
+              console.log("下单成功:", resData);
+              router.push("/MyOrder");
+            } else {
+              console.log("下单失败:", resData);
+            }
+          })
+          .catch((error) => {
+            console.log("下单请求异常:", error);
+          });
+      } else {
+        alert("收货信息不能为空");
       }
-       };
+    };
 
     return {
       address,
