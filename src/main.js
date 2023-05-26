@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from '../src/router/router.js'
 import axios from 'axios'
+import '../src/assets/css/reset.css'
 import VueAxios from 'vue-axios'
 
 const app = createApp(App)

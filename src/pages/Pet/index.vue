@@ -8,7 +8,7 @@
                 <!--左侧导航栏-->
                 <ul class="swiper-category-list" id="J_categoryList">
                     <li class="category-li">
-                        <a class="title" href="#dogs">
+                        <a class="title"  @click="goAnchor('#dogs')">
                             宠物狗
                             <em></em>
                         </a>
@@ -18,7 +18,7 @@
                         </div>
                     </li>
                     <li class="category-li">
-                        <a class="title" href="#cats">
+                        <a class="title"  @click="goAnchor('#cats')">
                             宠物猫
                             <em></em>
                         </a>
@@ -28,7 +28,7 @@
                         </div>
                     </li>
                     <li class="category-li">
-                        <a class="title" href="#birds">
+                        <a class="title" @click="goAnchor('#birds')">
                             宠物鸟
                             <em></em>
                         </a>
@@ -38,7 +38,7 @@
                         </div>
                     </li>
                     <li class="category-li">
-                        <a class="title" href="#fish">
+                        <a class="title" @click="goAnchor('#fish')">
                             水族宠物
                             <em></em>
                         </a>
@@ -48,7 +48,7 @@
                         </div>
                     </li>
                     <li class="category-li">
-                        <a class="title" href="#reptiles">
+                        <a class="title" @click="goAnchor('#reptiles')">
                             两栖爬行
                             <em></em>
                         </a>
@@ -359,7 +359,14 @@
                 let that = this;
                 sessionStorage.setItem("pet", JSON.stringify(pet.productId));
                 that.$router.push('/details')
-            }
+            },
+
+            //锚点跳转
+            goAnchor(selector) {/*参数selector是id选择器（#anchor14）*/
+                document.querySelector(selector).scrollIntoView({
+                    behavior: "smooth"
+                });
+            },
         },
 	})
 </script>

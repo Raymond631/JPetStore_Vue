@@ -105,8 +105,14 @@
                 axios(config)
                 .then(function (response) {
                     //in表示登录
-                    sessionStorage.setItem("user", JSON.stringify('in'));
-                    that.$router.push('/')
+                    if(response.data.code===200){
+                        sessionStorage.setItem("user", JSON.stringify('in'));
+                        that.$router.push('/')
+                    }
+                    else{
+                        alert(response.data.data);
+                        that.newVertification()
+                    }
                 })
                 .catch(function (error) {
                     console.log(error);
