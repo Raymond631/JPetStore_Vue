@@ -144,9 +144,16 @@ export default defineComponent({
     },
     //改变购买数量
     changeNumber(cart) {
+      let that = this
+      let perviousCost = cart.total_cost
       cart.total_cost = new Decimal(cart.itemPrice).mul(
         new Decimal(cart.quantity)
       );
+      if (that.checked.includes(cart.cartItemId)) {     
+        that.totalCost = new Decimal(that.totalCost).add(
+            new Decimal(cart.total_cost).sub(new Decimal(perviousCost))
+          );
+      }  
     },
     //删除
     deleteCart(cart) {
