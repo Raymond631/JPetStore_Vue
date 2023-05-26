@@ -211,9 +211,9 @@ export default defineComponent({
             // that.deleteCart(that.carts[i])
           }
         }
-        sessionStorage.setItem("orders", JSON.stringify(orders));
-        that.$router.push("/OrderSubmit");
       });
+      sessionStorage.setItem("orders", JSON.stringify(orders));
+      that.$router.push("/OrderSubmit");
     },
   },
 });

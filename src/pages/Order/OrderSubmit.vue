@@ -182,8 +182,8 @@ export default defineComponent({
       getAddress();
 
       const orders = JSON.parse(sessionStorage.getItem("orders"));
+      console.log(orders);
       if (Array.isArray(orders)) {
-
         cartList.value = orders.map((order) => {
           const {
             itemId,
@@ -244,7 +244,7 @@ export default defineComponent({
           .then((res) => {
             const resData = res.data;
             if (resData.code === 200) {
-              alert('保存成功')
+              alert("保存成功");
               getAddress();
             } else {
               console.log("保存地址失败:", resData.message);
