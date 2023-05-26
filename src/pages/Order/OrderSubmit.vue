@@ -22,7 +22,7 @@
     <div class="order_body_background">
       <div class="order_line">
         <div class="order_lien_in order_in">
-          <h3 class="order_title">收货地址</h3>
+          <h3 class="order_title">收货信息</h3>
         </div>
         <div class="order_lien_in">
           <a
@@ -161,6 +161,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import axios from "axios";
 import { RouterLink, useRouter } from "vue-router";
+import { Decimal } from "decimal.js";
 export default defineComponent({
   setup() {
     const address = ref({
@@ -208,8 +209,7 @@ export default defineComponent({
       for (let i = 0; i < orders.length; i++) {
         totalCost += orders[i].total_cost;
       }
-
-      cost.value = totalCost;
+      cost.value = new Decimal(totalCost);
     });
 
     const getAddress = () => {
@@ -254,7 +254,7 @@ export default defineComponent({
             console.log("保存地址请求异常:", error);
           });
       } else {
-        console.log("地址信息不完整");
+        alert("收货信息不完整");
         showErrorMsg();
       }
     };
@@ -281,7 +281,12 @@ export default defineComponent({
     };
 
     const placeOrder = () => {
-      const data = {
+      if (
+        address.value.receiverName &&
+        address.value.receiverPhone &&
+        address.value.receiverAddress
+      ) {
+        const data = {
         receiverName: address.value.receiverName,
         receiverPhone: address.value.receiverPhone,
         receiverAddress: address.value.receiverAddress,
@@ -308,7 +313,10 @@ export default defineComponent({
         .catch((error) => {
           console.log("下单请求异常:", error);
         });
-    };
+      }else{
+        alert('收货信息不能为空')
+      }
+       };
 
     return {
       address,

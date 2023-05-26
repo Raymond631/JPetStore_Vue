@@ -70,9 +70,9 @@
             <a class="back-shopping J_goShoping" href="/">继续购物</a>
             <span class="cart-total">
               共
-              <i id="J_cartTotalNum">1</i>
+              <i id="J_cartTotalNum">{{  productNumber_all }}</i>
               件商品，已选择
-              <i id="J_selTotalNum">0</i>
+              <i id="J_selTotalNum">{{ productNumber_select }}</i>
               件
             </span>
             <span class="total-price">
@@ -107,6 +107,8 @@ export default defineComponent({
       totalCost: 0,
       checkAll: false,
       checked: [],
+      productNumber_select: 0,
+      productNumber_all: 0,
     };
   },
   mounted: function () {
@@ -123,7 +125,9 @@ export default defineComponent({
       axios(config)
         .then(function (response) {
           that.carts = response.data.data;
+          // that.productNumber_all = response.data.data.length
           for (let i = 0; i < that.carts.length; i++) {
+            that.productNumber_all++
             that.carts[i].total_cost = new Decimal(that.carts[i].itemPrice).mul(
               new Decimal(that.carts[i].quantity)
             );
@@ -131,7 +135,6 @@ export default defineComponent({
             that.carts[
               i
             ].productImage = `http://localhost:8080/jpetstore/image/look/${that.carts[i].productImage}`;
-            console.log(that.carts[i].productImage);
           }
           console.log(that.carts);
         })
@@ -141,9 +144,16 @@ export default defineComponent({
     },
     //改变购买数量
     changeNumber(cart) {
+      let that = this
+      let perviousCost = cart.total_cost
       cart.total_cost = new Decimal(cart.itemPrice).mul(
         new Decimal(cart.quantity)
       );
+      if (that.checked.includes(cart.cartItemId)) {     
+        that.totalCost = new Decimal(that.totalCost).add(
+            new Decimal(cart.total_cost).sub(new Decimal(perviousCost))
+          );
+      }  
     },
     //删除
     deleteCart(cart) {
@@ -162,7 +172,9 @@ export default defineComponent({
             that.totalCost = new Decimal(that.totalCost).sub(
               new Decimal(cart.total_cost)
             );
+            that.productNumber_select--;
           }
+          that.productNumber_all--;
         })
         .catch(function (error) {
           console.log(error);
@@ -173,6 +185,7 @@ export default defineComponent({
       if (that.checkAll) {
         that.checked = [];
         that.totalCost = 0;
+        that.productNumber_select =0;
       } else {
         that.checked = [];
         that.carts.forEach(function (cart) {
@@ -180,6 +193,7 @@ export default defineComponent({
             new Decimal(cart.total_cost)
           );
           that.checked.push(cart.cartItemId);
+          that.productNumber_select++;
         });
       }
       if (that.checked.length === that.carts.length) {
@@ -194,11 +208,13 @@ export default defineComponent({
         that.totalCost = new Decimal(that.totalCost).sub(
           new Decimal(cart.total_cost)
         );
+        that.productNumber_select--;
       } else {
         that.checked.push(id);
         that.totalCost = new Decimal(that.totalCost).add(
           new Decimal(cart.total_cost)
         );
+        that.productNumber_select++;
       }
     },
     comfirmCart() {
