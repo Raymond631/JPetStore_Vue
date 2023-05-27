@@ -13,14 +13,21 @@
     padding-top: 15px;
 }
 
-.order_box_p label {
+.order_box_p1 {
+    height: 40px;
+    width: 268px;
+    margin: auto;
+    padding-top: 15px;
+}
+
+.order_box_p label,.order_box_p1 label {
     display: inline-block;
     text-align: left;
     width: 70px;
     color: #0a0a0a;
 }
 
-.order_box_p input {
+.order_box_p input,.order_box_p1 input {
     display: inline-block;
     text-align: left;
     height: 30px;
