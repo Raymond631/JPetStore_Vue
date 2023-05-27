@@ -36,7 +36,7 @@
         </div>
         <div class="order_lien_in"></div>
       </div>
-      <div class="order_box" id="adr_list">
+      <div class="order_box" id="adr_list" contenteditable="true">
         <a class="order_box_in" id="address_box">
           <p class="order_box_p">
             <label for="receiver_name">姓名</label
@@ -69,6 +69,7 @@
               name="receiver_adr"
               v-model="address.receiverAddress"
               :disabled="!isEditMode"
+              oninput="this.style.width = ((this.value.length + 1) * 18) + 'px'"
             />
           </p>
         </a>

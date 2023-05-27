@@ -13,11 +13,11 @@
             </dd>
             <dd>
               <span>英文名：</span>
-              <em id="product_name_English">{{ productNameEnglish }}}</em>
+              <em id="product_name_English">{{ productNameEnglish }}</em>
             </dd>
             <dd>
               <span>性　格：</span>
-              <em id="product_character">{{ productCharacter }}}</em>
+              <em id="product_character">{{ productCharacter }}</em>
             </dd>
             <dd>
               <span>祖　籍：</span>
