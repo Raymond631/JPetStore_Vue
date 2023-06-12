@@ -219,17 +219,19 @@ export default defineComponent({
     },
     comfirmCart() {
       let that = this;
+      let orders = [];
       that.checked.forEach(function (orderId) {
-        let orders = [];
         for (let i = 0; i < that.carts.length; i++) {
           if (that.carts[i].cartItemId === orderId) {
             orders.push(that.carts[i]);
             // that.deleteCart(that.carts[i])
           }
         }
+      });
+      console.log("orders")
+        console.log(orders)
         sessionStorage.setItem("orders", JSON.stringify(orders));
         that.$router.push("/OrderSubmit");
-      });
     },
   },
 });
