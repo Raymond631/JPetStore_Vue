@@ -85,7 +85,7 @@
           methods: {
             newVertification(){
                 let that = this;
-                that.imgSrc = "http://localhost:8080/jpetstore/verificationCode?" + new Date().getMilliseconds();
+                that.imgSrc = "/api/jpetstore/verificationCode?" + new Date().getMilliseconds();
             },
 
             register(){
@@ -97,7 +97,7 @@
                     code: that.verificationCode
                 };
                 let config = {
-                    url: "http://localhost:8080/jpetstore/user",
+                    url: "/api/jpetstore/user",
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

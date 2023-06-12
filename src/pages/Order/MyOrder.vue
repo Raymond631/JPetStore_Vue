@@ -67,7 +67,7 @@ export default defineComponent({
     const fetchOrders = () => {
 
       axios
-          .get("http://localhost:8080/jpetstore/orders")
+          .get("/api/jpetstore/orders")
           .then((res) => {
             orders.value = res.data.data;
             console.log(orders.value)
@@ -80,7 +80,7 @@ export default defineComponent({
 
     const confirmReceipt = (orderId) => {
       axios
-          .put(`http://localhost:8080/jpetstore/orders/${orderId}`)
+          .put(`/api/jpetstore/orders/${orderId}`)
           .then((res) => {
             if (res.data.code === 200) {
               const order = orders.value.find((o) => o.orderId === orderId);

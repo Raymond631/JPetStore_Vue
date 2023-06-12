@@ -7,6 +7,20 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    open: true,//是否自动弹出浏览器页面
+    host: 'localhost',
+    port: 3030,
+    https: false,
+    hotOnly: false,
+    proxy: {
+        "/api": {
+            target: "http://localhost:8080/",
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+    },
+},
   plugins: [
     vue(),
     AutoImport({

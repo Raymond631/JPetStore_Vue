@@ -70,7 +70,7 @@
             <a class="back-shopping J_goShoping" href="/">继续购物</a>
             <span class="cart-total">
               共
-              <i id="J_cartTotalNum">{{  productNumber_all }}</i>
+              <i id="J_cartTotalNum">{{ productNumber_all }}</i>
               件商品，已选择
               <i id="J_selTotalNum">{{ productNumber_select }}</i>
               件
@@ -118,7 +118,7 @@ export default defineComponent({
     ready() {
       let that = this;
       let config = {
-        url: "http://localhost:8080/jpetstore/cart",
+        url: "/api/jpetstore/cart",
         method: "GET",
         headers: {},
       };
@@ -127,14 +127,14 @@ export default defineComponent({
           that.carts = response.data.data;
           // that.productNumber_all = response.data.data.length
           for (let i = 0; i < that.carts.length; i++) {
-            that.productNumber_all++
+            that.productNumber_all++;
             that.carts[i].total_cost = new Decimal(that.carts[i].itemPrice).mul(
               new Decimal(that.carts[i].quantity)
             );
             //TODO这个地方留给修改图片路径
             that.carts[
               i
-            ].productImage = `http://localhost:8080/jpetstore/image/look/${that.carts[i].productImage}`;
+            ].productImage = `/api/jpetstore/image/look/${that.carts[i].productImage}`;
           }
           console.log(that.carts);
         })
@@ -144,23 +144,23 @@ export default defineComponent({
     },
     //改变购买数量
     changeNumber(cart) {
-      let that = this
-      let perviousCost = cart.total_cost
+      let that = this;
+      let perviousCost = cart.total_cost;
       cart.total_cost = new Decimal(cart.itemPrice).mul(
         new Decimal(cart.quantity)
       );
-      if (that.checked.includes(cart.cartItemId)) {     
+      if (that.checked.includes(cart.cartItemId)) {
         that.totalCost = new Decimal(that.totalCost).add(
-            new Decimal(cart.total_cost).sub(new Decimal(perviousCost))
-          );
-      }  
+          new Decimal(cart.total_cost).sub(new Decimal(perviousCost))
+        );
+      }
     },
     //删除
     deleteCart(cart) {
       let that = this;
       var config = {
         method: "delete",
-        url: "http://localhost:8080/jpetstore/cart/" + cart.cartItemId,
+        url: "/api/jpetstore/cart/" + cart.cartItemId,
         headers: {},
       };
 
@@ -185,7 +185,7 @@ export default defineComponent({
       if (that.checkAll) {
         that.checked = [];
         that.totalCost = 0;
-        that.productNumber_select =0;
+        that.productNumber_select = 0;
       } else {
         that.checked = [];
         that.carts.forEach(function (cart) {
@@ -228,10 +228,9 @@ export default defineComponent({
           }
         }
       });
-      console.log("orders")
-        console.log(orders)
-        sessionStorage.setItem("orders", JSON.stringify(orders));
-        that.$router.push("/OrderSubmit");
+
+      sessionStorage.setItem("orders", JSON.stringify(orders));
+      that.$router.push("/OrderSubmit");
     },
   },
 });

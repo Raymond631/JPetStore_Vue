@@ -129,7 +129,7 @@
                 let keyword = that.searchContent;
                 if (keyword !== null && keyword !== "") {
                     let config = {
-                        url: "http://localhost:8080/jpetstore/pets/searchTip?keyword=" + encodeURIComponent(keyword),
+                        url: "/api/jpetstore/pets/searchTip?keyword=" + encodeURIComponent(keyword),
                         method: "GET",
                         headers: {},
                     };

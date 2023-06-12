@@ -36,7 +36,7 @@
         </div>
         <div class="order_lien_in"></div>
       </div>
-      <div class="order_box" id="adr_list">
+      <div class="order_box" id="adr_list" contenteditable="true">
         <a class="order_box_in" id="address_box">
           <p class="order_box_p">
             <label for="receiver_name">姓名</label
@@ -69,6 +69,7 @@
               name="receiver_adr"
               v-model="address.receiverAddress"
               :disabled="!isEditMode"
+              oninput="this.style.width = ((this.value.length + 1) * 18) + 'px'"
             />
           </p>
         </a>
@@ -161,7 +162,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import axios from "axios";
 import { RouterLink, useRouter } from "vue-router";
-import { Decimal } from "decimal.js";
+// import { Decimal } from "decimal.js";
 export default defineComponent({
   setup() {
     const address = ref({
@@ -176,7 +177,6 @@ export default defineComponent({
     const cartList = ref([]);
     const btnBackground = ref("");
     const btnText = ref("");
-
     const router = useRouter();
 
     onMounted(() => {
@@ -184,7 +184,6 @@ export default defineComponent({
 
       const orders = JSON.parse(sessionStorage.getItem("orders"));
       if (Array.isArray(orders)) {
-
         cartList.value = orders.map((order) => {
           const {
             itemId,
@@ -204,17 +203,19 @@ export default defineComponent({
           };
         });
       }
+      console.log(cartList);
       let totalCost = 0;
 
       for (let i = 0; i < orders.length; i++) {
-        totalCost += orders[i].total_cost;
+        totalCost += parseFloat(orders[i].total_cost);
       }
-      cost.value = new Decimal(totalCost);
+      cost.value = totalCost.toFixed(2);
+      // cost.value = new Decimal(totalCost);
     });
 
     const getAddress = () => {
       axios
-        .get("http://localhost:8080/jpetstore/user/info")
+        .get("/api/jpetstore/user/info")
         .then((res) => {
           const resData = res.data;
           if (resData.code === 200) {
@@ -240,11 +241,11 @@ export default defineComponent({
           receiverAddress: address.value.receiverAddress,
         };
         axios
-          .put("http://localhost:8080/jpetstore/user/info", data)
+          .put("/api/jpetstore/user/info", data)
           .then((res) => {
             const resData = res.data;
             if (resData.code === 200) {
-              alert('保存成功')
+              alert("保存成功");
               getAddress();
             } else {
               console.log("保存地址失败:", resData.message);
@@ -287,36 +288,36 @@ export default defineComponent({
         address.value.receiverAddress
       ) {
         const data = {
-        receiverName: address.value.receiverName,
-        receiverPhone: address.value.receiverPhone,
-        receiverAddress: address.value.receiverAddress,
-        orderPayment: paymentOptions[payIndex.value],
-        cartList: cartList.value,
-        // totalCost: cost.value,
-      };
-      console.log(JSON.stringify(data));
-      axios
-        .post("http://localhost:8080/jpetstore/order", JSON.stringify(data), {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        .then((res) => {
-          const resData = res.data;
-          if (resData.code === 200) {
-            console.log("下单成功:", resData);
-            router.push("/MyOrder");
-          } else {
-            console.log("下单失败:", resData);
-          }
-        })
-        .catch((error) => {
-          console.log("下单请求异常:", error);
-        });
-      }else{
-        alert('收货信息不能为空')
+          receiverName: address.value.receiverName,
+          receiverPhone: address.value.receiverPhone,
+          receiverAddress: address.value.receiverAddress,
+          orderPayment: paymentOptions[payIndex.value],
+          cartList: cartList.value,
+          // totalCost: cost.value,
+        };
+        console.log(JSON.stringify(data));
+        axios
+          .post("/api/jpetstore/order", JSON.stringify(data), {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+          .then((res) => {
+            const resData = res.data;
+            if (resData.code === 200) {
+              console.log("下单成功:", resData);
+              router.push("/MyOrder");
+            } else {
+              console.log("下单失败:", resData);
+            }
+          })
+          .catch((error) => {
+            console.log("下单请求异常:", error);
+          });
+      } else {
+        alert("收货信息不能为空");
       }
-       };
+    };
 
     return {
       address,

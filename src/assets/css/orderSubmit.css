@@ -8,22 +8,30 @@
 
 .order_box_p {
     height: 40px;
-    width: 230px;
+    width: 100%;
     margin: auto;
     padding-top: 15px;
 }
 
-.order_box_p label {
+.order_box_p1 {
+    height: 40px;
+    width: 268px;
+    margin: auto;
+    padding-top: 15px;
+}
+
+.order_box_p label,.order_box_p1 label {
     display: inline-block;
     text-align: left;
     width: 70px;
     color: #0a0a0a;
 }
 
-.order_box_p input {
+.order_box_p input,.order_box_p1 input {
     display: inline-block;
     text-align: left;
     height: 30px;
+    
 }
 
 .box {
@@ -1243,11 +1251,11 @@ a {
 }
 
 .order_box_in {
-    width: 268px;
+    width: 100%;
     height: 178px;
     /*background: green;*/
     margin-left: 20px;
-    text-align: center;
+    /* text-align: center; */
     color: #e0e0e0;
     float: left;
 }

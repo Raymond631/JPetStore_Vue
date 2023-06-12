@@ -59,7 +59,7 @@
                 let keyword = JSON.parse(sessionStorage.getItem("keyword"));
                 console.log(keyword)
                 let config = {
-                    url: "http://localhost:8080/jpetstore/pets/search?keyword=" + encodeURIComponent(keyword),
+                    url: "/api/jpetstore/pets/search?keyword=" + encodeURIComponent(keyword),
                     method: "GET",
                     headers: {},
                 };
@@ -69,7 +69,7 @@
                     console.log(response)
                     that.pets = response.data.data
                     that.pets.forEach(function(pet) {
-                        pet.productImage = `http://localhost:8080/jpetstore/image/look/${ pet.productImage}`
+                        pet.productImage = `/api/jpetstore/image/look/${ pet.productImage}`
                     })
                 })
                 .catch(function (error) {
