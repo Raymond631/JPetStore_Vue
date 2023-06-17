@@ -22,7 +22,7 @@
       <div class="cart-goods-list" id="J_cartListGoods">
         <div class="list-head myclear" data-checked="false">
           <div class="col col-check">
-            <input type="checkbox" v-model="checkAll" @click="selectAll" /> 全选
+            <input type="checkbox" v-model="checkAll" @click="selectAll"/> 全选
           </div>
           <div class="col col-img">&nbsp;</div>
           <div class="col col-name">商品名称</div>
@@ -33,21 +33,21 @@
         </div>
         <div id="wapper">
           <div
-            class="list-body myclear"
-            data-checked="false"
-            v-for="cart in carts"
-            :key="cart.productId"
+              class="list-body myclear"
+              data-checked="false"
+              v-for="cart in carts"
+              :key="cart.productId"
           >
             <div class="col col-check">
               <input
-                type="checkbox"
-                v-model="checked"
-                :value="cart.cartItemId"
-                @click="select(cart.cartItemId, cart)"
+                  type="checkbox"
+                  v-model="checked"
+                  :value="cart.cartItemId"
+                  @click="select(cart.cartItemId, cart)"
               />
             </div>
             <div class="col col-img">
-              <a href="javascript:;"><img :src="cart.productImage" alt="" /></a>
+              <a href="javascript:;"><img :src="cart.productImage" alt=""/></a>
             </div>
             <div class="col col-name">
               {{ cart.productNameChinese }}/{{ cart.itemSpecification }}
@@ -55,10 +55,10 @@
             <div class="col col-price">{{ cart.itemPrice }}</div>
             <div class="col col-num">
               <el-input-number
-                v-model="cart.quantity"
-                :min="1"
-                @change="changeNumber(cart)"
-                size="mx-4"
+                  v-model="cart.quantity"
+                  :min="1"
+                  @change="changeNumber(cart)"
+                  size="mx-4"
               />
             </div>
             <div class="col col-total">{{ cart.total_cost }}</div>
@@ -96,9 +96,10 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import { Decimal } from "decimal.js";
+import {defineComponent} from "vue";
+import {Decimal} from "decimal.js";
 import axios from "axios";
+
 export default defineComponent({
   name: "cart",
   data() {
@@ -123,35 +124,40 @@ export default defineComponent({
         headers: {},
       };
       axios(config)
-        .then(function (response) {
-          that.carts = response.data.data;
-          // that.productNumber_all = response.data.data.length
-          for (let i = 0; i < that.carts.length; i++) {
-            that.productNumber_all++;
-            that.carts[i].total_cost = new Decimal(that.carts[i].itemPrice).mul(
-              new Decimal(that.carts[i].quantity)
-            );
-            //TODO这个地方留给修改图片路径
-            that.carts[
-              i
-            ].productImage = `/api/jpetstore/image/look/${that.carts[i].productImage}`;
-          }
-          console.log(that.carts);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+          .then(function (response) {
+            if (response.data.code === 200) {
+              that.carts = response.data.data;
+              // that.productNumber_all = response.data.data.length
+              for (let i = 0; i < that.carts.length; i++) {
+                that.productNumber_all++;
+                that.carts[i].total_cost = new Decimal(that.carts[i].itemPrice).mul(
+                    new Decimal(that.carts[i].quantity)
+                );
+                //TODO这个地方留给修改图片路径
+                that.carts[
+                    i
+                    ].productImage = `/api/jpetstore/image/look/${that.carts[i].productImage}`;
+              }
+              console.log(that.carts);
+            } else {
+              alert(response.data.data)
+            }
+
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     },
     //改变购买数量
     changeNumber(cart) {
       let that = this;
       let perviousCost = cart.total_cost;
       cart.total_cost = new Decimal(cart.itemPrice).mul(
-        new Decimal(cart.quantity)
+          new Decimal(cart.quantity)
       );
       if (that.checked.includes(cart.cartItemId)) {
         that.totalCost = new Decimal(that.totalCost).add(
-          new Decimal(cart.total_cost).sub(new Decimal(perviousCost))
+            new Decimal(cart.total_cost).sub(new Decimal(perviousCost))
         );
       }
     },
@@ -165,20 +171,24 @@ export default defineComponent({
       };
 
       axios(config)
-        .then(function (response) {
-          that.carts.splice(that.carts.indexOf(cart), 1);
-          if (that.checked.includes(cart.cartItemId)) {
-            that.checked.splice(that.checked.indexOf(cart.cartItemId), 1);
-            that.totalCost = new Decimal(that.totalCost).sub(
-              new Decimal(cart.total_cost)
-            );
-            that.productNumber_select--;
-          }
-          that.productNumber_all--;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+          .then(function (response) {
+            if (response.data.code === 200) {
+              that.carts.splice(that.carts.indexOf(cart), 1);
+              if (that.checked.includes(cart.cartItemId)) {
+                that.checked.splice(that.checked.indexOf(cart.cartItemId), 1);
+                that.totalCost = new Decimal(that.totalCost).sub(
+                    new Decimal(cart.total_cost)
+                );
+                that.productNumber_select--;
+              }
+              that.productNumber_all--;
+            } else {
+              alert(response.data.data)
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     },
     selectAll() {
       let that = this;
@@ -190,7 +200,7 @@ export default defineComponent({
         that.checked = [];
         that.carts.forEach(function (cart) {
           that.totalCost = new Decimal(that.totalCost).add(
-            new Decimal(cart.total_cost)
+              new Decimal(cart.total_cost)
           );
           that.checked.push(cart.cartItemId);
           that.productNumber_select++;
@@ -206,13 +216,13 @@ export default defineComponent({
       if (that.checked.includes(id)) {
         that.checked.splice(that.checked.indexOf(id), 1);
         that.totalCost = new Decimal(that.totalCost).sub(
-          new Decimal(cart.total_cost)
+            new Decimal(cart.total_cost)
         );
         that.productNumber_select--;
       } else {
         that.checked.push(id);
         that.totalCost = new Decimal(that.totalCost).add(
-          new Decimal(cart.total_cost)
+            new Decimal(cart.total_cost)
         );
         that.productNumber_select++;
       }

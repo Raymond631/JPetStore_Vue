@@ -33,7 +33,7 @@
             </dd>
           </dl>
           <div class="entry_tit_rig">
-            <img id="petImage" alt="暂无图片" :src="productImage" />
+            <img id="petImage" alt="暂无图片" :src="productImage"/>
           </div>
           <div style="font: 16px/20px 'Microsoft YaHei'">
             <span>简 介：</span>
@@ -41,7 +41,7 @@
           </div>
         </div>
         <div
-          style="
+            style="
             float: left;
             width: 450px;
             margin-top: 29px;
@@ -54,13 +54,13 @@
             </dt>
             <dd id="pet_list">
               <a
-                class="list_item"
-                v-for="(pet, index) in petItemList"
-                :key="index"
-                :class="index == current ? 'current' : '  '"
-                @click="chooseItem(index, pet)"
-                >{{ pet.itemSpecification }}</a
-              ><br />
+                  class="list_item"
+                  v-for="(pet, index) in petItemList"
+                  :key="index"
+                  :class="index == current ? 'current' : '  '"
+                  @click="chooseItem(index, pet)"
+              >{{ pet.itemSpecification }}</a
+              ><br/>
             </dd>
           </dl>
         </div>
@@ -75,12 +75,12 @@
             <div class="choose_btns">
               <div class="choose_amount">
                 <el-input-number
-                  v-model="number"
-                  :min="1"
-                  :max="max_Number"
-                  @change="changeNumber"
-                  size="mx-4"
-                  style="margin-top: 5px"
+                    v-model="number"
+                    :min="1"
+                    :max="max_Number"
+                    @change="changeNumber"
+                    size="mx-4"
+                    style="margin-top: 5px"
                 />
               </div>
               <a class="addcar" @click="addToCart" id="addToCart">加入购物车</a>
@@ -97,7 +97,7 @@
     <div class="div_home">
       <div class="div_home" id="userButton">
         <a class="home2" href="/jpetstore/SelfCenter.html"
-          ><span>个人中心</span></a
+        ><span>个人中心</span></a
         >
         <a class="home5" href="/jpetstore/MyCart.html"><span>购物车</span></a>
       </div>
@@ -107,9 +107,9 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 import navigationBar from "../../components/header.vue";
-import { Decimal } from "decimal.js";
+import {Decimal} from "decimal.js";
 import axios from "axios";
 
 export default defineComponent({
@@ -138,7 +138,7 @@ export default defineComponent({
       petItemList: [],
     };
   },
-  components: { navigationBar },
+  components: {navigationBar},
   mounted: function () {
     this.ready();
   },
@@ -153,28 +153,28 @@ export default defineComponent({
       };
 
       axios(config)
-        .then(function (response) {
-          console.log(response.data.data);
-          that.productId = response.data.data.productId;
-          that.category = response.data.data.category;
-          that.productAncestry = response.data.data.productAncestry;
-          that.productCharacter = response.data.data.productCharacter;
-          that.productNameChinese = response.data.data.productNameChinese;
-          that.productNameEnglish = response.data.data.productNameEnglish;
-          that.productLife = response.data.data.productLife;
-          that.productCharacter = response.data.data.productCharacter;
-          that.productImage = `/api/jpetstore/image/look/${response.data.data.productImage}`;
-          that.productIntroduce = response.data.data.productIntroduce;
-          that.petItemList = response.data.data.petItemList;
-          that.price = response.data.data.petItemList[0].itemPrice;
-          that.totalPrice = response.data.data.petItemList[0].itemPrice;
-          that.itemId = response.data.data.petItemList[0].itemId;
-          that.name = response.data.data.petItemList[0].itemSpecification;
-          that.max_Number = response.data.data.petItemList[0].itemStock;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+          .then(function (response) {
+            console.log(response.data);
+            that.productId = response.data.data.productId;
+            that.category = response.data.data.category;
+            that.productAncestry = response.data.data.productAncestry;
+            that.productCharacter = response.data.data.productCharacter;
+            that.productNameChinese = response.data.data.productNameChinese;
+            that.productNameEnglish = response.data.data.productNameEnglish;
+            that.productLife = response.data.data.productLife;
+            that.productCharacter = response.data.data.productCharacter;
+            that.productImage = `/api/jpetstore/image/look/${response.data.data.productImage}`;
+            that.productIntroduce = response.data.data.productIntroduce;
+            that.petItemList = response.data.data.petItemList;
+            that.price = response.data.data.petItemList[0].itemPrice;
+            that.totalPrice = response.data.data.petItemList[0].itemPrice;
+            that.itemId = response.data.data.petItemList[0].itemId;
+            that.name = response.data.data.petItemList[0].itemSpecification;
+            that.max_Number = response.data.data.petItemList[0].itemStock;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     },
     //选择小类
     chooseItem(index, pet) {
@@ -210,12 +210,13 @@ export default defineComponent({
       };
 
       axios(config)
-        .then(function (response) {
-          alert("加入购物车成功");
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+          .then(function (response) {
+            let res = response.data;
+            alert(res.data)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     },
   },
 });
