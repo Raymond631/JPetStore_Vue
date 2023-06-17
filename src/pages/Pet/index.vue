@@ -363,9 +363,7 @@
         <!-- 固定 -->
         <div class="div_home">
             <div class="div_home" id="userButton">
-                <router-link class="home2" to="/selfCenter"
-                ><span>个人中心</span></router-link
-                >
+                <router-link class="home2" to="/selfCenter"><span>个人中心</span></router-link>
                 <router-link class="home5" to="/cart"><span>购物车</span></router-link>
                 <a class="img_yincang" href="/jpetstore"><span>回到顶部</span></a>
             </div>
