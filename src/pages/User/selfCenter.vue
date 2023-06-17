@@ -29,8 +29,8 @@
                             <input class="code_input" id="code" name="vCode" placeholder="验证码" required="required"
                                    type="text">
                             <a class="code_link">
-                                <img alt="验证码" class="code_img" id="verificationCode"
-                                     onclick="newVerification()" src="/api/jpetstore/verificationCode">
+<!--                                <img alt="验证码" class="code_img" id="verificationCode"-->
+<!--                                     onclick="newVerification()" src="/jpetstore/verificationCode">-->
                             </a>
                             <div class="err_tip" id="errer"></div>
                             <button class="btnadpt item_account" onclick="changePassword()">保存</button>
