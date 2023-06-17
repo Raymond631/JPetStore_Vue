@@ -171,9 +171,22 @@ export default {
             }
         },
         logout() {
-            sessionStorage.setItem("user", JSON.stringify(null));
-            this.user = false;
-            this.$router.push('/')
+            let that = this;
+            let config = {
+                method: 'delete',
+                url: '/api/jpetstore/token',
+            };
+            axios(config)
+                .then(function (response) {
+                    console.log(JSON.stringify(response.data));
+                    sessionStorage.setItem("user", JSON.stringify(null));
+                    that.user = false;
+                    that.$router.push('/')
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
         }
     },
 }
