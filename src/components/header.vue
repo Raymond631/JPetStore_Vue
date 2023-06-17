@@ -6,7 +6,7 @@
         <div class="container">
             <!-- 导航栏 -->
             <nav class="topbar-nav">
-                <a href="/jpetstore">JPetStore</a>
+                <router-link to="/">JPetStore</router-link>
                 <span class="sep">|</span>
                 <a href="https://www.ixiupet.com/zixun/">宠物资讯</a>
                 <span class="sep">|</span>
@@ -52,7 +52,7 @@
             <!-- logo -->
             <div class="header-logo">
                 <ul class="myclear">
-                    <li><a href="/jpetstore"></a></li>
+                    <li><router-link to="/"></router-link></li>
                     <li></li>
                 </ul>
             </div>

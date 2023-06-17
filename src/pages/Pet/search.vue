@@ -3,7 +3,7 @@
         <div class="container">
             <!--logo -->
             <div class="header-logo">
-                <a class="logo ir" href="/jpetstore"></a>
+              <router-link to="/" class="logo ir">JPetStore</router-link>
             </div>
             <!-- 标题 -->
             <div class="header-title has-more" id="J_miniHeaderTitle">
@@ -11,7 +11,7 @@
                 <p>点击宠物名称查看详情</p>
             </div>
             <div class="topbar-info" id="J_userInfo">
-                <a class="link link-order" href="/jpetstore" rel="nofollow">返回首页</a>
+              <router-link to="/" class="link link-order" rel="nofollow">返回首页</router-link>
             </div>
         </div>
     </header>

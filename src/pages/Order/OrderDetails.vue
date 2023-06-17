@@ -2,12 +2,11 @@
   <div class="order_head">
     <div class="head_background">
       <div class="head_box">
-        <a href="/jpetstore" class="head_left_a"
-          ><img
+        <router-link to="/" class="head_left_a"><img
             src="../../assets/image/login/placeholder.png"
             alt=""
             class="head_left_p"
-        /></a>
+        /></router-link>
         <h1 class="head_h1">订单详情</h1>
         <div class="head_right">
           <router-link to="/MyOrder" class="head_right_in"

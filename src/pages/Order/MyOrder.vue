@@ -4,7 +4,7 @@
     <div class="container">
       <!--logo -->
       <div class="header-logo">
-        <a class="logo ir" href="/jpetstore"></a>
+        <router-link to="/" class="logo ir"></router-link>
       </div>
       <!-- 标题 -->
       <div class="header-title has-more" id="J_miniHeaderTitle">
