@@ -1,19 +1,68 @@
 /*详情页的样式文件*/
 
-.entry_tit{
-    background:#efefef;
-    border-bottom:1px solid #ddd;
-    padding:20px;
-    position:relative
+.entry_tit {
+    background: #efefef;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+    position: relative
 }
-.entry_tit_pet{overflow:hidden;width:830px;display:inline-block;*display:inline;zoom:1;vertical-align:top;padding-bottom:40px}
-.entry_tit_pet dt{font:24px/24px "Microsoft YaHei";padding-bottom:5px}
-.entry_tit_pet dd{float:left;width:410px;margin:25px 0 0;font:16px/20px "Microsoft YaHei";padding:0 3px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.entry_tit_pet dd span{color:#999}
-.entry_tit_pet dd em{font-style:normal}
-.entry_tit_rig{display:inline-block;*display:inline;zoom:1;vertical-align:top}
-.entry_tit_rig img{display:block;width:258px;height:188px;padding:10px;border:1px solid #ddd;background:#FFF}
-.entry_tit_rig span{display:block;text-align:center;font:16px/20px "Microsoft YaHei";padding:10px 0 0}
+
+.entry_tit_pet {
+    overflow: hidden;
+    width: 830px;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+    padding-bottom: 40px
+}
+
+.entry_tit_pet dt {
+    font: 24px/24px "Microsoft YaHei";
+    padding-bottom: 5px
+}
+
+.entry_tit_pet dd {
+    float: left;
+    width: 410px;
+    margin: 25px 0 0;
+    font: 16px/20px "Microsoft YaHei";
+    padding: 0 3px 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.entry_tit_pet dd span {
+    color: #999
+}
+
+.entry_tit_pet dd em {
+    font-style: normal
+}
+
+.entry_tit_rig {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top
+}
+
+.entry_tit_rig img {
+    display: block;
+    width: 258px;
+    height: 188px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #FFF
+}
+
+.entry_tit_rig span {
+    display: block;
+    text-align: center;
+    font: 16px/20px "Microsoft YaHei";
+    padding: 10px 0 0
+}
 
 .de_container {
     margin-top: 20px;
@@ -99,7 +148,7 @@
     height: 60px;
     margin: 0 auto; */
     color: red;
-    border: red solid 2px!important;
+    border: red solid 2px !important;
 }
 
 .arrow_prev,
