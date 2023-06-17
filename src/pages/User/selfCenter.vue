@@ -18,23 +18,23 @@
                     <div class="loginbox">
                         <div class="btn login_area">
                             <div>
-                                <input class="item_account" id="password_old" name="password_old" placeholder="原密码"
+                                <input class="item_account" id="password_old" placeholder="原密码" v-model="password_old"
                                        required="required" type="password">
                                 <div class="err_tip" id="name_repeat"></div>
-                                <input class="item_account" id="password_new" name="password_new" placeholder="新密码"
+                                <input class="item_account" id="password_new" placeholder="新密码" v-model="password_new"
                                        required="required" type="password">
-                                <input class="item_account" id="password_repeat" name="password_repeat"
+                                <input class="item_account" id="password_repeat" name="password_repeat" v-model="password_repeat"
                                        placeholder="确认密码"
                                        required="required" type="password">
-                                <input class="code_input" id="code" name="vCode" placeholder="验证码"
+                                <input class="code_input" id="code" placeholder="验证码" v-model="verificationCode"
                                        required="required"
                                        type="text">
                                 <a class="code_link">
-                                    <!--                                <img alt="验证码" class="code_img" id="verificationCode"-->
-                                    <!--                                     onclick="newVerification()" src="/jpetstore/verificationCode">-->
+                                    <img :src="imgSrc" alt="验证码" class="code_img" id="verificationCode"
+                                        @click="newVertification()">
                                 </a>
                                 <div class="err_tip" id="errer"></div>
-                                <button class="btnadpt item_account" onclick="changePassword()">保存</button>
+                                <button class="btnadpt item_account" @click="changePassword()">保存</button>
                             </div>
                             <div class="other_panel myclear">
                                 <div class="links_area">
@@ -65,15 +65,66 @@
 </template>
 <script>
 import {defineComponent} from "vue"
+import axios from "axios"
 
 export default defineComponent({
     name: "selfCenter",
     data() {
         return {
-            data: ''
+            password_old:'',
+            password_new:'',
+            password_repeat:'', 
+            verificationCode:'',
+            imgSrc:'',
         }
     },
-    methods: {},
+    mounted: function(){
+        this.newVertification()
+    },
+    methods: {
+        newVertification() {
+            let that = this;
+            that.imgSrc = "/api/jpetstore/verificationCode?" + new Date().getMilliseconds();
+        },
+        changePassword(){
+            let that = this;
+            if(password_old!=''||password_new!=''||password_repeat!=''){
+                let data = {
+                    oldPassword: that.password_old,
+                    password: that.password_new,
+                    rePassword: that.password_repeat,
+                    code: that.verificationCode
+            };
+            let config = {
+                url: "/api/jpetstore/user/auth",
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: data
+            };
+
+            axios(config)
+                .then(function (response) {
+                    //in表示登录
+                    if (response.data.code === 200) {
+                        alert('修改成功')
+                        that.newVertification()
+                        that.verificationCode=''
+                    } else {
+                        alert(response.data.data);
+                        that.newVertification()
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            }
+            else{
+                alert('输入不能为空')
+            }
+        },
+    },
 })
 </script>
 

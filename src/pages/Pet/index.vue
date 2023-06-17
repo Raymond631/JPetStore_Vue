@@ -1,5 +1,5 @@
 <template>
-    <navigationBar></navigationBar>
+    <navigationBar id="top"></navigationBar>
     <section>
         <!-- home-container start -->
         <header class="home-container">
@@ -363,9 +363,18 @@
         <!-- 固定 -->
         <div class="div_home">
             <div class="div_home" id="userButton">
-                <router-link class="home2" to="/selfCenter"><span>个人中心</span></router-link>
-                <router-link class="home5" to="/cart"><span>购物车</span></router-link>
-                <router-link to="/" class="img_yincang"><span>回到顶部</span></router-link>
+                <router-link class="home2" to="/selfCenter">
+                  <el-icon style="margin-top: 10px;"><User /></el-icon>
+                  <span>个人中心</span>
+                </router-link>
+                <router-link class="home5" to="/cart">
+                  <el-icon style="margin-top: 10px;"><ShoppingCart /></el-icon>
+                  <span>购物车</span>
+                </router-link>
+                <router-link class="img_yincang" to="/">
+                  <el-icon style="margin-top: 10px;" @click="goAnchor('#top')"><Top /></el-icon>
+                  <span>回到顶部</span>
+                </router-link>
             </div>
         </div>
     </footer>
@@ -380,6 +389,7 @@ export default defineComponent({
     name: "index",
     data() {
         return {
+            scrollTop: 0,
             dogs: [],
             cats: [],
             birds: [],
@@ -427,7 +437,7 @@ export default defineComponent({
                     console.log(error);
                 });
         },
-        
+
         showAll(category) {
             let that = this;
             sessionStorage.setItem("keyword", JSON.stringify(category));
